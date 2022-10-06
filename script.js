@@ -1,1 +1,1 @@
-console.log("script running");
+// document.getElementById('mainHeader').innerText = 'new header';
