@@ -1,6 +1,5 @@
-table td, table th {
-    outline-style: solid;
-    padding: 5px;
+table {
+    max-width: 500px;
 }
 
 #report, #grades {
