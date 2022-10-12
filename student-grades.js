@@ -1,13 +1,4 @@
-var studentReport = {
-    "assignments": [
-    {"name": "Assignment 1", "grade": 80},
-    {"name": "Assignment 2", "grade": 75}],
-    report: {"standard-deviation": 12, "rank": 15, "percentile": 90}
-};
-
 var reportSection = document.getElementById("report");
-
-
 
 const table = document.createElement("table");
 const tr1 = document.createElement("tr");
