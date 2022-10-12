@@ -18,6 +18,12 @@ h2{
     color: #222;
 }
 
+h3{
+    font-size: 30px;
+    color: #222;
+    margin-top: 10px;
+}
+
 h4{
     font-size: 20px;
     color: #222;
@@ -257,6 +263,9 @@ body{
     }
     h2 {
         font-size: 32px;
+    }
+    h3 {
+        font-size: 25px;
     }
     #lure {
         padding: 0 20px;

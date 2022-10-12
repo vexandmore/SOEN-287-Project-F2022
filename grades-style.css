@@ -1,0 +1,8 @@
+table td, table th {
+    outline-style: solid;
+    padding: 5px;
+}
+
+#grades {
+    padding: 15px;
+}
