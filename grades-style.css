@@ -5,3 +5,7 @@ table {
 #report, #grades {
     padding: 15px;
 }
+
+#report h3 {
+    font-size: 20px;
+}

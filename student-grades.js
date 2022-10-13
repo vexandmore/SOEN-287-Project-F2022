@@ -1,4 +1,3 @@
-var reportSection = document.getElementById("report");
 const colourThresholds = {
     "standard-deviation": null,
     "rank": new Categorizer([50, 15, 1], ["table-danger", "table-warning", "table-success"], "lowest"),
@@ -29,7 +28,7 @@ function Categorizer(numbers, classes, best) {
 function TableElement(text, className) {
     this.text = text;
     this.className = className;
-    this.toString = () => {return this.text};
+    this.toString = () => this.text;
 }
 
 function makeTable(elements) {
@@ -72,22 +71,22 @@ function makeTable(elements) {
  * Make table for report with standard deviation, etc
  */
 
-const dataReport = [["Standard Deviation", "Rank", "Percentile"], []];
+const dataReport = [["Standard Deviation", "Rank", "Percentile"],
+    // Add the report values to this array, to be turned into a table
+    Object.keys(studentReport.report).map(key => {
+        const value = studentReport.report[key];
+        // If there is a categorizer for this report piece, categorize it
+        if (colourThresholds[key]) {
+            var className = colourThresholds[key].classify(value);
+        }
+        return new TableElement(value, className);
+    })
+];
 
-// Create the table element for each item in the report
-for (const reportElement in studentReport.report) {
-    const value = studentReport.report[reportElement]
-    let className = "";
-    // If there is a categorizer for this report element,
-    // categorize the number
-    if (colourThresholds[reportElement]) {
-        className = colourThresholds[reportElement].classify(value);
-    }
-    dataReport[1].push(new TableElement(value, className));
-}
 // Make and insert the table into the appropriate section
 tableStats = makeTable(dataReport);
-reportSection.insertAdjacentElement('beforeend', tableStats);
+const statsSection = document.getElementById("reportStatistics");
+statsSection.insertAdjacentElement('afterend', tableStats);
 
 
 /**
@@ -98,4 +97,5 @@ const medianReport = [["Assignment", "Median"]].concat(
 );
 // Make and insert the table into the appropriate section
 const tableMedian = makeTable(medianReport);
-reportSection.insertAdjacentElement('beforeend', tableMedian);
+const mediansSection = document.getElementById("reportMedians");
+mediansSection.insertAdjacentElement('afterend', tableMedian);
