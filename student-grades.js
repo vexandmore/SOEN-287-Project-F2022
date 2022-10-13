@@ -26,84 +26,76 @@ function Categorizer(numbers, classes, best) {
     }
 }
 
-const tableStats = document.createElement("table");
-tableStats.className = "table";
-const tr1 = document.createElement("tr");
-// Append the headings to the first row
-["Standard Deviation", "Rank", "Percentile"].map(x => {
-    const text = document.createTextNode(x);
-    const th = document.createElement("th");
-    th.appendChild(text);
-    th.scope = "col";
-    return th;
-}).forEach(heading => tr1.appendChild(heading));
-// Append the data to the second row
-const tr2 = document.createElement("tr");
-const element = studentReport.report;
+function TableElement(text, className) {
+    this.text = text;
+    this.className = className;
+    this.toString = () => {return this.text};
+}
+
+function makeTable(elements) {
+    const table = document.createElement("table");
+    table.className = "table";
+    // Do header row
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    
+    const tr1 = document.createElement("tr");
+    elements[0].forEach(e => {
+        const text = document.createTextNode(e.toString());
+        const th = document.createElement("th");
+        th.appendChild(text);
+        th.scope = "col";
+        th.className = e.className;
+        tr1.appendChild(th);
+    });
+    thead.appendChild(tr1);
+
+    // Do remaining rows
+    for (var i = 1; i < elements.length; i++) {
+        const tr = document.createElement("tr");
+        elements[i].forEach(e => {
+            const text = document.createTextNode(e.toString());
+            const td = document.createElement("td");
+            td.className = e.className;
+            td.appendChild(text);
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    }
+    // Add table head and body    
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    return table;
+}
+
+/**
+ * Make table for report with standard deviation, etc
+ */
+
+const dataReport = [["Standard Deviation", "Rank", "Percentile"], []];
 
 // Create the table element for each item in the report
 for (const reportElement in studentReport.report) {
     const value = studentReport.report[reportElement]
-    const text = document.createTextNode(value);
-    const td = document.createElement("td");
+    let className = "";
     // If there is a categorizer for this report element,
     // categorize the number
     if (colourThresholds[reportElement]) {
-        const tableClass = colourThresholds[reportElement].classify(value);
-        td.className = tableClass;
+        className = colourThresholds[reportElement].classify(value);
     }
-    td.appendChild(text);
-    tr2.appendChild(td);
+    dataReport[1].push(new TableElement(value, className));
 }
-// Create the report table
-const thead = document.createElement("thead");
-thead.appendChild(tr1);
-const tbody = document.createElement("tbody");
-tbody.appendChild(tr2);
-tableStats.appendChild(thead);
-tableStats.appendChild(tbody);
-
+// Make and insert the table into the appropriate section
+tableStats = makeTable(dataReport);
 reportSection.insertAdjacentElement('beforeend', tableStats);
-
-
 
 
 /**
  * Create the report table with the median grades
  */
- const tableMedian = document.createElement("table");
- tableMedian.className = "table";
- const trs1 = document.createElement("tr");
- const medianRows = [];
- 
- ["Assignment", "Median"].map(x => {
-    const text = document.createTextNode(x);
-    const th = document.createElement("th");
-    th.appendChild(text);
-    th.scope = "col";
-    return th;
-}).forEach(heading => trs1.appendChild(heading));
-
-// Add the medians to the table
-studentReport.assignments.forEach(assignment => {
-    const trs2 = document.createElement("tr");
-    const nameE = document.createElement("td");
-    nameE.appendChild(document.createTextNode(assignment.name));
-    const medianE = document.createElement("td");
-    medianE.appendChild(document.createTextNode(assignment.median));
-    trs2.appendChild(nameE);
-    trs2.appendChild(medianE);
-    medianRows.push(trs2);
-});
-
-// Create the report table
-// Create the report table
-const theadM = document.createElement("thead");
-theadM.appendChild(trs1);
-const tbodyM = document.createElement("tbody");
-medianRows.forEach(row => {
-    tbodyM.appendChild(row);
-});
-tableMedian.appendChild(theadM);
-tableMedian.appendChild(tbodyM);
+const medianReport = [["Assignment", "Median"]].concat(
+    studentReport.assignments.map(assignment => [assignment.name, assignment.median])
+);
+// Make and insert the table into the appropriate section
+const tableMedian = makeTable(medianReport);
 reportSection.insertAdjacentElement('beforeend', tableMedian);
