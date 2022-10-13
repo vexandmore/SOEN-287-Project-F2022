@@ -4,6 +4,11 @@ const colourThresholds = {
     "rank": new Categorizer([50, 15, 1], ["table-danger", "table-warning", "table-success"], "lowest"),
     "percentile": new Categorizer([20, 50, 100], ["table-danger", "table-warning", "table-success"], "highest")
 };
+
+/**
+ * Create the report table with standard deviation, rank, and percentile.
+ */
+
 // Constructor of object that will categorize a rank or percentile into the appropriate
 // table colour class to show in the report
 function Categorizer(numbers, classes, best) {
@@ -21,8 +26,8 @@ function Categorizer(numbers, classes, best) {
     }
 }
 
-const table = document.createElement("table");
-table.className = "table";
+const tableStats = document.createElement("table");
+tableStats.className = "table";
 const tr1 = document.createElement("tr");
 // Append the headings to the first row
 ["Standard Deviation", "Rank", "Percentile"].map(x => {
@@ -50,14 +55,55 @@ for (const reportElement in studentReport.report) {
     td.appendChild(text);
     tr2.appendChild(td);
 }
-
-
+// Create the report table
 const thead = document.createElement("thead");
 thead.appendChild(tr1);
 const tbody = document.createElement("tbody");
 tbody.appendChild(tr2);
-table.appendChild(thead);
-table.appendChild(tbody);
+tableStats.appendChild(thead);
+tableStats.appendChild(tbody);
 
-reportSection.insertAdjacentElement('beforeend', table);
+reportSection.insertAdjacentElement('beforeend', tableStats);
 
+
+
+
+/**
+ * Create the report table with the median grades
+ */
+ const tableMedian = document.createElement("table");
+ tableMedian.className = "table";
+ const trs1 = document.createElement("tr");
+ const medianRows = [];
+ 
+ ["Assignment", "Median"].map(x => {
+    const text = document.createTextNode(x);
+    const th = document.createElement("th");
+    th.appendChild(text);
+    th.scope = "col";
+    return th;
+}).forEach(heading => trs1.appendChild(heading));
+
+// Add the medians to the table
+studentReport.assignments.forEach(assignment => {
+    const trs2 = document.createElement("tr");
+    const nameE = document.createElement("td");
+    nameE.appendChild(document.createTextNode(assignment.name));
+    const medianE = document.createElement("td");
+    medianE.appendChild(document.createTextNode(assignment.median));
+    trs2.appendChild(nameE);
+    trs2.appendChild(medianE);
+    medianRows.push(trs2);
+});
+
+// Create the report table
+// Create the report table
+const theadM = document.createElement("thead");
+theadM.appendChild(trs1);
+const tbodyM = document.createElement("tbody");
+medianRows.forEach(row => {
+    tbodyM.appendChild(row);
+});
+tableMedian.appendChild(theadM);
+tableMedian.appendChild(tbodyM);
+reportSection.insertAdjacentElement('beforeend', tableMedian);
