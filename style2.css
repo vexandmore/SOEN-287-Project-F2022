@@ -18,12 +18,6 @@ h2{
     color: #222;
 }
 
-h3{
-    font-size: 30px;
-    color: #222;
-    margin-top: 10px;
-}
-
 h4{
     font-size: 20px;
     color: #222;
@@ -133,6 +127,7 @@ body{
 #close {
     display: none;
 }
+
 #teacher_check{
     width: 4%;
 }
@@ -266,12 +261,31 @@ body{
     h2 {
         font-size: 32px;
     }
-    h3 {
-        font-size: 25px;
-    }
     #lure {
         padding: 0 20px;
         background-position: 55%;
     }
   
+}
+/*login Teacher's page*/
+#page-header-teacherpage{
+    background-image: url("img/teacher-login-image.jpg");
+    height: 20vh;
+    background-size: cover;
+    background-position: 0 -50px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 30px;
+}
+
+#page-header-teacherpage h2,
+#page-header-teacherpage p{
+    color: azure;
+}
+#heading h3{
+	text-align: center;
+	flex-direction: column;
+    padding: 15px;
 }
