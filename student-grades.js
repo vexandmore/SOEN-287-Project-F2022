@@ -31,27 +31,13 @@ function TableElement(text, className) {
     this.toString = () => this.text;
 }
 
-function makeTable(elements) {
-    const table = document.createElement("table");
-    table.className = "table";
-    // Do header row
-    const thead = document.createElement("thead");
-    const tbody = document.createElement("tbody");
-    
-    const tr1 = document.createElement("tr");
-    elements[0].forEach(e => {
-        const text = document.createTextNode(e.toString());
-        const th = document.createElement("th");
-        th.appendChild(text);
-        th.scope = "col";
-        th.className = e.className;
-        tr1.appendChild(th);
-    });
-    thead.appendChild(tr1);
-
-    // Do remaining rows
-    for (var i = 1; i < elements.length; i++) {
+function addToTable(tableID, elements) {
+    // get table body element
+    const table = document.querySelector("#" + tableID + " tbody");
+    // Do each row
+    for (var i = 0; i < elements.length; i++) {
         const tr = document.createElement("tr");
+        // For each element in the row, make the td and add it to the row
         elements[i].forEach(e => {
             const text = document.createTextNode(e.toString());
             const td = document.createElement("td");
@@ -59,19 +45,15 @@ function makeTable(elements) {
             td.appendChild(text);
             tr.appendChild(td);
         });
-        tbody.appendChild(tr);
+        table.appendChild(tr);
     }
-    // Add table head and body    
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    return table;
 }
 
 /**
  * Make table for report with standard deviation, etc
  */
 
-const dataReport = [["Standard Deviation", "Rank", "Percentile"],
+const dataReport = [
     // Add the report values to this array, to be turned into a table
     Object.keys(studentReport.report).map(key => {
         const value = studentReport.report[key];
@@ -83,19 +65,13 @@ const dataReport = [["Standard Deviation", "Rank", "Percentile"],
     })
 ];
 
-// Make and insert the table into the appropriate section
-tableStats = makeTable(dataReport);
-const statsSection = document.getElementById("reportStatistics");
-statsSection.insertAdjacentElement('afterend', tableStats);
+// Insert table data
+addToTable('statisticsTable', dataReport);
 
 
 /**
  * Create the report table with the median grades
  */
-const medianReport = [["Assignment", "Median"]].concat(
-    studentReport.assignments.map(assignment => [assignment.name, assignment.median])
-);
+const medianReport = studentReport.assignments.map(assignment => [assignment.name, assignment.median]);
 // Make and insert the table into the appropriate section
-const tableMedian = makeTable(medianReport);
-const mediansSection = document.getElementById("reportMedians");
-mediansSection.insertAdjacentElement('afterend', tableMedian);
+addToTable('mediansTable', medianReport);
