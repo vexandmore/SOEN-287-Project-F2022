@@ -47,8 +47,8 @@
             </form>
         </section>
         <label>
-            <input type="checkbox" name="teacher_check"
-            id=teacher_check value=teacher-check/>
+            <input onclick="teacherLink()" type="checkbox" name="teacher_check"
+            id="teacher_check" value=teacher-check/>
             I am a teacher
         </label>
         <pre></pre>
@@ -77,19 +77,21 @@
                     Already have an account?
                     <a href="login.html">Log in</a>
                      here.
-                     <a href="mycourses.html"></br>
+                     <a id="sign_up_link" href="mycourses.html"></br>
                         Sign up</a> 
             </h4>
-                
-                <!--does not work
                 <script>
-                var teacher = $('input[name="teacher_check"]');
-
-                if (teacher.is(':checked')){
-                    <a href="bows.html"> Sign up </a>
-                }
+                    function teacherLink() {
+                        var teacher = document.getElementById("teacher_check");
+                        if (teacher.checked){
+                            document.getElementById("sign_up_link").href = "teacher.html";
+                        } else {
+                            document.getElementById("sign_up_link").href = "mycourses.html";
+                        }
+                    }
+                    // Call function on page load to workaround form auto-fill
+                    teacherLink();
                 </script>
-                does not work-->
             </form>
         </section>
     </body>

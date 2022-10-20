@@ -1,0 +1,8 @@
+form {
+    margin: 10px;
+}
+
+#addGrade, #addAssignment {
+    margin-bottom: 30px;
+    max-width: 800px;
+}
