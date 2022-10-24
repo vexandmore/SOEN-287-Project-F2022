@@ -4,6 +4,9 @@ const colourThresholds = {
     "percentile": new Categorizer([20, 50, 100], ["table-danger", "table-warning", "table-success"], "highest")
 };
 
+const allData = JSON.parse(localStorage.getItem('data'));
+const studentData = allData.studentData.filter(val => val.name == "Sophie")[0];
+
 /**
  * Create the report table with standard deviation, rank, and percentile.
  */
@@ -55,8 +58,8 @@ function addToTable(tableID, elements) {
 
 const dataReport = [
     // Add the report values to this array, to be turned into a table
-    Object.keys(studentReport.report).map(key => {
-        const value = studentReport.report[key];
+    Object.keys(studentData.report).map(key => {
+        const value = studentData.report[key];
         // If there is a categorizer for this report piece, categorize it
         if (colourThresholds[key]) {
             var className = colourThresholds[key].classify(value);
@@ -72,6 +75,6 @@ addToTable('statisticsTable', dataReport);
 /**
  * Create the report table with the median grades
  */
-const medianReport = studentReport.assignments.map(assignment => [assignment.name, assignment.median]);
+const medianReport = studentData.assignments.map(assignment => [assignment.name, assignment.median]);
 // Make and insert the table into the appropriate section
 addToTable('mediansTable', medianReport);
