@@ -5,42 +5,42 @@ const colourThresholds = {
     "percentile": new Categorizer([20, 50, 100], ["table-danger", "table-warning", "table-success"], "highest")
 };
 
-// Grab all data from localStorage
-const allData = JSON.parse(localStorage.getItem('data'));
-// Grab data for student "Sophie"
-const studentData = allData.studentData.filter(val => val.name == "Sophie")[0];
-// Grab median data
-const medianData = allData.assignments;
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onload = function() {
+    const allData = JSON.parse(this.responseText);
+    // Grab data for student "Sophie"
+    const studentData = allData.studentData.filter(val => val.name == "Sophie")[0];
+    // Grab median data
+    const medianData = allData.assignments;
+    /**
+     * Create the report table with the median grades
+     */
+    const medianReport = medianData.map(assignment => [assignment.name, assignment.median]);
+    // Make and insert the table into the appropriate section
+    addToTable('mediansTable', medianReport);
+    /**
+     * Make table for report with standard deviation, rank, percentile
+     * NOTE: uses the custom TableElement class to bundle data about what 
+     * the class of the <td> should be
+     */
 
-/**
- * Create the report table with the median grades
- */
- const medianReport = medianData.map(assignment => [assignment.name, assignment.median]);
- // Make and insert the table into the appropriate section
- addToTable('mediansTable', medianReport);
- 
+    const dataReport = [
+        // Add the report values to this array, to be turned into a table
+        Object.keys(studentData.report).map(key => {
+            const value = studentData.report[key];
+            // If there is a categorizer for this report piece, categorize it
+            if (colourThresholds[key]) {
+                var className = colourThresholds[key].classify(value);
+            }
+            return new TableElement(value, className);
+        })
+    ];
 
-
-/**
- * Make table for report with standard deviation, rank, percentile
- * NOTE: uses the custom TableElement class to bundle data about what 
- * the class of the <td> should be
- */
- const dataReport = [
-    // Add the report values to this array, to be turned into a table
-    Object.keys(studentData.report).map(key => {
-        const value = studentData.report[key];
-        // If there is a categorizer for this report piece, categorize it
-        if (colourThresholds[key]) {
-            var className = colourThresholds[key].classify(value);
-        }
-        return new TableElement(value, className);
-    })
-];
-
-// Insert table data
-addToTable('statisticsTable', dataReport);
-
+    // Insert table data
+    addToTable('statisticsTable', dataReport);
+}
+xmlhttp.open("GET", "api/studentData.php", true);
+xmlhttp.send();
 
 
 
