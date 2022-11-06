@@ -59,38 +59,70 @@
                 <span>
                     <label>
                         <input type="text" placeholder="LAST NAME"
-                        name="last_name" />
+                        id="last_name"/>
                     </label>
 
                     <label>
                         <input type="text" placeholder="FIRST NAME"
-                        name="first_name"/>
+                        id="first_name"/>
                     </label>                
                     <pre></pre>
                 <h5 style="color:darkgray">Email Address</h5>    
                     <label>
                         <input type="email" placeholder="Email"
-                        name="user_email"/>
+                        id="user_email"/>
                     </label>
+                    <h5 style="color:red" id="input_error">Please enter a valid First Name</h5>
             <h4>                    
                 </br>
                     Already have an account?
                     <a href="login.html">Log in</a>
                      here.
-                     <a id="sign_up_link" href="mycourses.html"></br>
-                        Sign up</a> 
+                    </br>
+                     <label>
+                        <button type="button" onclick="signUpButton()" class="normal">
+                     </label>
+                     <h5>Sign Up</h5>
             </h4>
                 <script>
+                    var scene = "mycourses.html";
+                    document.getElementById("input_error").innerText = "";
                     function teacherLink() {
                         var teacher = document.getElementById("teacher_check");
-                        if (teacher.checked){
-                            document.getElementById("sign_up_link").href = "teacher page.html";
-                        } else {
-                            document.getElementById("sign_up_link").href = "mycourses.html";
-                        }
+                            if (teacher.checked){
+                                scene = "teacher page.html";
+                            } else {
+                                scene = "mycourses.html";
+                            }
                     }
                     // Call function on page load to workaround form auto-fill
                     teacherLink();
+                    
+                    function signUpButton(){
+                        var valid = true;
+                        var errorString = "";
+                        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                        //input validation
+                        if (document.getElementById("last_name").value == ""){
+                            valid = false;
+                            errorString = "Please enter a valid last name";
+                        }
+                        else if (document.getElementById("first_name").value == ""){
+                            valid = false;
+                            errorString = "Please enter a valid first name";
+                        }
+                        else if (!document.getElementById("user_email").value.match(validRegex)){
+                            valid = false;
+                            errorString = "Please enter a valid email";
+                        }
+                        //going to the next page upon signing up
+                        if (valid){
+                            location.href=scene;
+                        }
+                        else {
+                            document.getElementById("input_error").innerText = errorString;
+                        }
+                    }
                 </script>
             </form>
         </section>
