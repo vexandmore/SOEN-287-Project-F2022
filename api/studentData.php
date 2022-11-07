@@ -3,8 +3,13 @@
 // Connect to database
 $mysqli = new mysqli("127.0.0.1", "root", "", "gms", 3306);
 
+// Once login is working, this will come from the user session
+$studentID = 40215874;
+//$studentID = 40291824;
 
-// Find all the assignment IDs and names, and putting them in $assignmentInfo
+/*
+  Find all the assignment IDs and names, and putting them in $assignmentInfo
+*/
 $result = $mysqli->query("SELECT `AssignmentID`,`Name` FROM assignments");
 $assignmentIDs = array();
 foreach ($result as $row) {
@@ -13,7 +18,9 @@ foreach ($result as $row) {
 
 $assignments = array();
 
-// Find the median of each Assignment
+/*
+  Find the median of each Assignment
+*/
 foreach ($assignmentInfo as $info) {
     // get the ID for this assignment
     $id = $info['id'];
@@ -37,6 +44,38 @@ foreach ($assignmentInfo as $info) {
     $assignments[] = array("name" => $info['name'], "median" => $median);
 }
 
+/*
+  Find student ranking
+*/
+// First, find this student's average grade
+$averageQuery = $mysqli->query("SELECT 
+                                    s.StudentID, 
+                                    avg(g.Grade)
+                                FROM students s
+                                    INNER JOIN grades g on g.StudentID=s.StudentID and s.StudentID=$studentID
+                                GROUP BY s.StudentID;");
+foreach ($averageQuery as $averageRow) {
+    $average = $averageRow['avg(g.Grade)'];
+}
+
+// First, find the list of everyone's average grade, in order
+$averages = $mysqli->query("SELECT 
+                                s.StudentID, 
+                                avg(g.Grade)
+                            FROM students s
+                                INNER JOIN grades g on g.StudentID=s.StudentID
+                                GROUP BY s.StudentID
+                            ORDER BY avg(g.Grade) DESC;");
+$rank = 1;
+foreach ($averages as $averageRow) {
+    if ($averageRow['avg(g.Grade)'] > $average) {
+        $rank = $rank + 1;
+    }
+}
+
+
+
+
 
 $out = array (
     "assignments" => $assignments,
@@ -50,7 +89,7 @@ $out = array (
             ),
             "report" => array(
                 "standard-deviation" => 15,
-                "rank" => 18,
+                "rank" => $rank,
                 "percentile" => 51
             )
         )
