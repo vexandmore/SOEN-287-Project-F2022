@@ -12,13 +12,22 @@ if ( mysqli_connect_errno() ) {
 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 }
 
+// Create table if it doesn't exist
+$con->query("CREATE TABLE IF NOT EXISTS `students` (
+	`StudentID` int(11) NOT NULL,
+	`Name` varchar(128) NOT NULL,
+	`Email` varchar(128) NOT NULL,
+	`Password` varchar(128) NOT NULL,
+	PRIMARY KEY (`StudentID`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
 //Various verification (lines 15-36)
 if ( !isset($_POST['firstName'], $_POST['lastName'], $_POST['email']) ) {
 	
 	exit('Please fill both of the name fields and the email field');
 }
 
-if ( empty($_POST['firstName']) || empty($_POST['lastName']) || empty($_POST['email']) || empty($_POST['studentId'])) {
+if ( empty($_POST['firstName']) || empty($_POST['lastName']) || empty($_POST['email']) || empty($_POST['id'])) {
 	
 	exit('Please complete singup form');
 }
@@ -52,7 +61,7 @@ if ($stmt = $con->prepare('SELECT email, `password` FROM students WHERE email = 
 if ($stmt = $con->prepare('INSERT INTO students (Name, Email, StudentID, Password) VALUES (?, ?, ?, ?)')) {
 	$name = $_POST['firstName'] . ' ' . $_POST['lastName'];
 	$email = $_POST['email'];
-	$id = intval($_POST['studentId']);
+	$id = intval($_POST['id']);
 	$password = $_POST['password'];
 	$stmt->bind_param('ssis', $name, $email, $id, $password);
 	$stmt->execute();
