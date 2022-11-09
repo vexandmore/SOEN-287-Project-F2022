@@ -53,24 +53,34 @@
         </label>
         <pre></pre>
         <section id="form-details">
-            <form action="">
+            <form action="register.php" method="POST" id="signup_form">
 
                 <h5 style="color:darkgray">Full Name</h5>
                 <span>
                     <label>
                         <input type="text" placeholder="LAST NAME"
-                        id="last_name"/>
+                        id="last_name" name="lastName"/>
                     </label>
 
                     <label>
                         <input type="text" placeholder="FIRST NAME"
-                        id="first_name"/>
+                        id="first_name" name="firstName"/>
                     </label>                
                     <pre></pre>
                 <h5 style="color:darkgray">Email Address</h5>    
                     <label>
                         <input type="email" placeholder="Email"
-                        id="user_email"/>
+                        id="user_email" name="email"/>
+                    </label>
+                    <label>
+                        <h5 style="color:darkgray">Student ID</h5>
+                        <input type="text" placeholder="Student ID"
+                        id="student_id" name="studentId"/>
+                    </label>
+                    <label>
+                        <h5 style="color:darkgray">Password</h5>
+                        <input type="password" placeholder="Password"
+                        id="password" name="password"/>
                     </label>
                     <h5 style="color:red" id="input_error">Please enter a valid First Name</h5>
             <h4>                    
@@ -85,19 +95,8 @@
                      <h5>Sign Up</h5>
             </h4>
                 <script>
-                    var scene = "mycourses.html";
-                    document.getElementById("input_error").innerText = "";
-                    function teacherLink() {
-                        var teacher = document.getElementById("teacher_check");
-                            if (teacher.checked){
-                                scene = "teacher page.html";
-                            } else {
-                                scene = "mycourses.html";
-                            }
-                    }
-                    // Call function on page load to workaround form auto-fill
-                    teacherLink();
-                    
+                    document.getElementById("input_error").innerText = '';
+
                     function signUpButton(){
                         var valid = true;
                         var errorString = "";
@@ -117,7 +116,7 @@
                         }
                         //going to the next page upon signing up
                         if (valid){
-                            location.href=scene;
+                            document.getElementById('signup_form').submit();
                         }
                         else {
                             document.getElementById("input_error").innerText = errorString;
