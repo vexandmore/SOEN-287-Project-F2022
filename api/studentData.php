@@ -15,6 +15,7 @@ $assignmentIDs = array();
 foreach ($result as $row) {
     $assignmentInfo[] = array("id" => $row['AssignmentID'], "name" => $row['Name']);
 }
+$result->close();
 
 $assignments = array();
 
@@ -43,6 +44,7 @@ foreach ($assignmentInfo as $info) {
     // Add the information about the assignment to the $assignments array
     $assignments[] = array("name" => $info['name'], "median" => $median);
 }
+$result->close();
 
 /*
   Find student ranking
@@ -57,8 +59,11 @@ $averageQuery = $mysqli->query("SELECT
 foreach ($averageQuery as $averageRow) {
     $average = $averageRow['avg(g.Grade)'];
 }
+$averageQuery->close();
 
-// First, find the list of everyone's average grade, in order
+// First, find the number of students
+
+// Then, find the list of everyone's average grade, in order
 $averages = $mysqli->query("SELECT 
                                 s.StudentID, 
                                 avg(g.Grade)
@@ -67,13 +72,24 @@ $averages = $mysqli->query("SELECT
                                 GROUP BY s.StudentID
                             ORDER BY avg(g.Grade) DESC;");
 $rank = 1;
+// And calculate rank
 foreach ($averages as $averageRow) {
     if ($averageRow['avg(g.Grade)'] > $average) {
         $rank = $rank + 1;
     }
 }
+$averages->close();
 
 
+/*
+  Find student percentile
+*/
+$numStudentsResult = $mysqli->query("SELECT COUNT(*) from students;");
+$numStudents = $numStudentsResult->fetch_assoc()['COUNT(*)'];
+$numStudentsResult->close();
+$percentile = ($numStudents - $rank) / $numStudents;
+$percentile *=  100;
+$percentile = intval($percentile);
 
 
 
@@ -90,7 +106,7 @@ $out = array (
             "report" => array(
                 "standard-deviation" => 15,
                 "rank" => $rank,
-                "percentile" => 51
+                "percentile" => $percentile
             )
         )
     )
@@ -100,4 +116,5 @@ $out_json = json_encode($out);
 
 echo $out_json;
 
+$mysqli->close();
 ?>
