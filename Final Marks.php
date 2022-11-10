@@ -68,7 +68,7 @@ foreach ($result as $row) {
       </aside>
       <h4><li><a class="active" href="teacher page.html">Home</a></li>
         <li><a href="Assignments.html">Assignments</a>
-        <li><a href="Grades.html">Grades</a></li>
+        <li><a href="Grades.php">Grades</a></li>
         <li><a href="Final Marks.php">Final Marks</a></h4>
       <main class="content">
         <h2>Final marks:</h2>
