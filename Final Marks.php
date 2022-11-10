@@ -45,7 +45,7 @@ foreach ($result as $row) {
  <li><a href="mycourses.html">My Courses</a></li>
  <li><a class="active" href="services.html">User Guide</a></li>
  <li><a href="myaccount.html">My account</a></li>
- <li><a href="login.html">Logout</a></li>
+ <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
       
