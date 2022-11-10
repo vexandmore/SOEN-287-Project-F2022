@@ -3,9 +3,15 @@
 // Connect to database
 $mysqli = new mysqli("127.0.0.1", "root", "", "gms", 3306);
 
+session_start();
+// If not logged in, return error
+if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
+    echo "ERROR: not logged in";
+    exit;
+}
+
 // Once login is working, this will come from the user session
-$studentID = 40215874;
-//$studentID = 40291824;
+$studentID = $_SESSION['StudentID'];
 
 /*
   Find all the assignment IDs and names, and putting them in $assignmentInfo

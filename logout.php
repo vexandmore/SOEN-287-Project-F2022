@@ -8,7 +8,7 @@ $_SESSION = array();
 // Destroy the session.
 session_destroy();
  
-// Redirect to login page
+// Load student login page (in future will pick either teacher or student page)
 header("location: login.php");
 exit;
 ?>
