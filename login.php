@@ -14,7 +14,7 @@ if ( mysqli_connect_errno() ) {
 session_start();
 // If user is logged in, redirect to welcome page
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    header("location: mycourses.html");
+    header("location: mycourses.php");
     exit;
 }
 
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $_SESSION['StudentID'] = $StudentID;
                     $_SESSION['Email'] = $Email;
                     // Redirect to marks page
-                    header("location: mycourses.html");
+                    header("location: mycourses.php");
                     exit;
 
                 } else {
@@ -93,7 +93,7 @@ $con->close();
             <div>
                 <ul id="navbar">
 				    <li><a href="home.html">Home</a></li>
-                    <li><a href="mycourses.html">My Courses</a></li>
+                    <li><a href="mycourses.php">My Courses</a></li>
 					<li><a class="active" href="login.php">My account</a></li>
                 </ul>
             </div>
@@ -177,7 +177,7 @@ $con->close();
             <div class="col">
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
-                <a href="mycourses.html">View My Courses</a>
+                <a href="mycourses.php">View My Courses</a>
                 <a href="teacher page.html">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>

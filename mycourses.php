@@ -1,4 +1,5 @@
 <?php
+session_start();
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
@@ -6,29 +7,30 @@ $DATABASE_NAME = 'gms';
 
 // creating a connection and checking whether the connection can be established 
 $connect = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
- if (my_sqli_connect_errno()){
+ /*if (my_sqli_connect_errno()){
     exit('Failed to connect to MySQL' .mysqli_connect_error());
- }
+ }*/
 
-$sql = "SELECT AssignmentID, name, Grade FROM gms";
+$sql = "SELECT AssignmentID, Grade FROM grades WHERE StudentID=" . intval($_SESSION['StudentID']);
 $result = $connect->query($sql);
 
+$grades_contents = "";
 
 // check if the sql database has at least 1 row
 if ($result -> num_rows > 0){
-    // output the value of 
-   echo '<table>
+    // makes a table from the db values
+   $grades_contents = '<table>
             <tr>
-                <th> Assignments </th>
-                <th> Grade </th>
-            </tr>'
-    while ($row = $result -> fetch_assoc()){
-        echo '<tr>
-                <td>' "Assignment" .$row["AssignmentID"]. '</td>'
-                '<td>' "Grade: " .$row["Grade"]. '</td>'
-            '</tr>';
+                <th  style=\'width: 150px;\'> Assignment </th>
+                <th  style=\'width: 150px;\'> Grade </th>
+            </tr>';
+    foreach ($result as $row){
+        $grades_contents .= '<tr>';
+        $grades_contents .=    '<td> Assignment ' .$row["AssignmentID"]. '</td>';
+        $grades_contents .=     ' <td> Grade: ' .$row["Grade"]. '</td>';
+        $grades_contents .=    '</tr>';
     }
-    echo '</table>'
+    $grades_contents .= '</table>';
 
 }
 else{
@@ -60,7 +62,7 @@ $connect -> close();
             <div>
                 <ul id="navbar">
 		    <li><a href="home.html">Home</a></li>
-                    <li><a class="active" href="mycourses.html">My Courses</a></li>
+                    <li><a class="active" href="mycourses.php">My Courses</a></li>
 		    <li><a href="myaccount.php">My account</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
@@ -73,32 +75,9 @@ $connect -> close();
 
         <section id="grades">
             <h2>Grades</h2>
-            <p>
-                <table>
-                    <tr>
-                        <th> Graded Work </th>
-                    </tr>
-                    <tr> 
-                        <td>Assignment 1</td>
-                        <td></td>
-                        <td>75%</td>
-                    </tr>
-                    <tr>
-                        <td>Assignment 2</td>
-                        <td></td>
-                        <td>80%</td>
-                    </tr>
-                    <tr>
-                        <td>Assignment 3</td>
-                        <td></td>
-                        <td>65%</td>
-                    </tr>
-                    <tr> 
-                        <th>Final Grade</th>
-                        <td>N/A</td>  <!--In a real-world usage, Final grade would be kept empty, or even invisible until needed. Just to show it works-->
-                    </tr>
-                </table>
-            </p>
+            <?php
+                echo $grades_contents;
+            ?>
         </section>
         <section id="report">
             <h2>Report</h2>
@@ -142,7 +121,7 @@ $connect -> close();
             <div class="col">
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
-                <a href="mycourses.html">View My Courses</a>
+                <a href="mycourses.php">View My Courses</a>
                 <a href="teacher page.html">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>

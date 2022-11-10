@@ -35,7 +35,7 @@ session_start();
 				    <li><a href="home.html">Home</a></li>
                     <?php
                     if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-                        echo "<li><a href=\"mycourses.html\">My Courses</a></li>";
+                        echo "<li><a href=\"mycourses.php\">My Courses</a></li>";
                     } else {
                         echo "<li><a href=\"teacher page.html\">My Courses</a></li>";
                     }
@@ -102,7 +102,7 @@ session_start();
             <div class="col">
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
-                <a href="mycourses.html">View My Courses</a>
+                <a href="mycourses.php">View My Courses</a>
                 <a href="teacher page.html">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>

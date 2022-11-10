@@ -42,7 +42,7 @@ foreach ($result as $row) {
     <div>
         <ul id="navbar">
 <li><a href="home.html">Home</a></li>
- <li><a href="mycourses.html">My Courses</a></li>
+ <li><a href="mycourses.php">My Courses</a></li>
  <li><a href="myaccount.php">My account</a></li>
  <li><a href="logout.php">Logout</a></li>
         </ul>
