@@ -98,6 +98,35 @@ $percentile *=  100;
 $percentile = intval($percentile);
 
 
+/*
+  Find standard deviation
+*/
+// First get class average
+$averageResult = $mysqli->query("SELECT  avg(Grade)
+                            FROM grades;");
+$classAverage = $averageResult->fetch_assoc()['avg(Grade)'];
+$averageResult->close();
+
+// Then get the number of students
+$numStudentsResult = $mysqli->query("SELECT  count(StudentID)
+                            FROM students;");
+$numStudents = $numStudentsResult->fetch_assoc()['count(StudentID)'];
+$numStudentsResult->close();
+
+// Then calculate the sum of the squares of the differences of the grades
+$gradesResult = $mysqli->query("SELECT Grade FROM grades;");
+$standardDeviation = 0.0;
+foreach($gradesResult as $row) {
+    $difference = ($row['Grade'] - $classAverage);
+    $standardDeviation += $difference * $difference;
+}
+$gradesResult->close();
+$standardDeviation /= $numStudents;
+$standardDeviation = round(sqrt($standardDeviation));
+
+
+
+
 
 $out = array (
     "assignments" => $assignments,
@@ -110,7 +139,7 @@ $out = array (
                 array("name" => "Assignment3", "grade" => 92)
             ),
             "report" => array(
-                "standard-deviation" => 15,
+                "standard-deviation" => $standardDeviation,
                 "rank" => $rank,
                 "percentile" => $percentile
             )
