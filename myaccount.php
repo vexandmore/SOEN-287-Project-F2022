@@ -29,7 +29,6 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
                 <ul id="navbar">
 				    <li><a href="home.html">Home</a></li>
                     <li><a href="mycourses.html">My Courses</a></li>
-                    <li><a href="services.html">User Guide</a></li>
 					<li><a class="active" href="login.php">My account</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
