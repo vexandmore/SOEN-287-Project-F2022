@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $_SESSION['loggedin'] = true;
                     $_SESSION['Name'] = $FirstName . ' ' . $LastName;
                     $_SESSION['StudentID'] = $StudentID;
+                    $_SESSION['Email'] = $Email;
                     // Redirect to marks page
                     header("location: mycourses.html");
                     exit;

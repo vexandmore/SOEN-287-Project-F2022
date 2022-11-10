@@ -1,14 +1,21 @@
+<?php
+session_start();
+if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
+    echo "ERROR: not logged in";
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Grades</title>
+        <title>User Login Page</title>
         <link rel="stylesheet" href="style2.css">
-        <link rel="stylesheet" href="grades-style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-        <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 		
 	
@@ -20,66 +27,35 @@
 
             <div>
                 <ul id="navbar">
-		    <li><a href="home.html">Home</a></li>
-                    <li><a class="active" href="mycourses.html">My Courses</a></li>
+				    <li><a href="home.html">Home</a></li>
+                    <li><a href="mycourses.html">My Courses</a></li>
                     <li><a href="services.html">User Guide</a></li>
-		    <li><a href="myaccount.php">My account</a></li>
+					<li><a class="active" href="login.php">My account</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </section>
 
         <section id="page-header">
-            <h2>GRADES</h2>
+            <h2>USER PAGE</h2>
         </section>
-
-        <section id="grades">
-            <h2>Grades</h2>
-            <p>
-                <table>
-                    <tr>
-                        <th> Graded Work </th>
-                    </tr>
-                    <tr> 
-                        <td>Assignment 1</td>
-                        <td></td>
-                        <td>75%</td>
-                    </tr>
-                    <tr>
-                        <td>Assignment 2</td>
-                        <td></td>
-                        <td>80%</td>
-                    </tr>
-                    <tr>
-                        <td>Assignment 3</td>
-                        <td></td>
-                        <td>65%</td>
-                    </tr>
-                    <tr> 
-                        <th>Final Grade</th>
-                        <td>N/A</td>  <!--In a real-world usage, Final grade would be kept empty, or even invisible until needed. Just to show it works-->
-                    </tr>
-                </table>
-            </p>
-        </section>
-        <section id="report">
-            <h2>Report</h2>
-            <h3 id="reportStatistics">Statistics</h3>
-            <table class="table" id="statisticsTable">
+        <section id="user-info">
+            <h3>Data</h3>
+            <table class="table" style="max-width: 500px;">
                 <thead>
-                    <th>Standard Deviation</th>
-                    <th>Rank</th>
-                    <th>Percentile</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Student ID</th>
                 </thead>
-                <tbody></tbody>
-            </table>
-            <h3 id="reportMedians">Assignment Medians</h3>
-            <table class="table" id="mediansTable">
-                <thead>
-                    <th>Assignment</th>
-                    <th>Median</th>
-                </thead>
-                <tbody></tbody>
+                <tbody>
+                    <tr>
+                        <?php
+                        echo "<td> " . $_SESSION['Name'] . "</td>";
+                        echo "<td> " . $_SESSION['Email'] . "</td>";
+                        echo "<td> " . $_SESSION['StudentID'] . "</td>";
+                        ?>
+                    </tr>
+                </tbody>
             </table>
         </section>
 	
@@ -110,7 +86,5 @@
             </div>
         </footer>
 
-        <script src="demo-data.js"></script>
-        <script src="student-grades.js"></script>
     </body>
 </html>
