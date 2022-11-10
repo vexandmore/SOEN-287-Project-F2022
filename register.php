@@ -58,12 +58,13 @@ if ($stmt = $con->prepare('SELECT email, `password` FROM students WHERE email = 
 	} else {
 	
     //new email, account can be created
-if ($stmt = $con->prepare('INSERT INTO students (Name, Email, StudentID, Password) VALUES (?, ?, ?, ?)')) {
-	$name = $_POST['firstName'] . ' ' . $_POST['lastName'];
+if ($stmt = $con->prepare('INSERT INTO students (FirstName, LastName, Email, StudentID, Password) VALUES (?, ?, ?, ?, ?)')) {
+	$firstname = $_POST['firstName'];
+	$lastname = $_POST['lastName'];
 	$email = $_POST['email'];
 	$id = intval($_POST['id']);
 	$password = $_POST['password'];
-	$stmt->bind_param('ssis', $name, $email, $id, $password);
+	$stmt->bind_param('sssis', $firstname, $lastname, $email, $id, $password);
 	$stmt->execute();
 	echo 'You have successfully registered, you can now login!';
 } else {
