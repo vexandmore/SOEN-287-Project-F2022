@@ -2,7 +2,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Grades</title>
+  <title>Final Marks</title>
   <link rel="stylesheet" href="style2.css">
   <link rel="stylesheet" href="grades-style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -53,6 +53,79 @@
         <p>Sophia Smith: C+</p>
         
         <hr><br>
+
+        <html>
+  <head>
+    <title>student calculate</title>
+    <!-- link for font  -->
+    <link
+      href=
+"https://fonts.googleapis.com/css?family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- main html  -->
+    <div class="container">
+      <h1>Student grade calculator</h1>
+      <div class="screen-body-item">
+        <div class="app">
+          <div class="form-group">
+            <!-- option for taking the input -->
+            <input
+              type="text"
+              class="form-control"
+              placeholder="ASSIGNMENT1"
+              id="assignment1"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="ASSIGNMENT2"
+              id="assignment2"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="MIDTERM"
+              id="midterm"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="FINAL"
+              id="final"
+            />
+          </div>
+          <div>
+            <input
+              type="button"
+              value="Show percentage & letter grade"
+              class="btn btn-primary"
+              onclick="calculate()"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- for showing the result-->
+      <div class="form-group showdata">
+        <p id="showdata"></p>
+      </div>
+    </div>
+    <!--adding external javascript file-->
+    <script src="Grade_calc.js"></script>
+    <p>Insert the grades over 100%</p>
+    <p>Evaluation scheme: Assignment1 (10%); Assignment2 (10%); Midterm (30%); Final(50%). </p>
+  </body>
+</html>
+
         <h2>Upload final marks here</h2>
         <form>
           <div class="form-group row">
@@ -81,13 +154,17 @@
                 <option>D+</option>
                 <option>D</option>
                 <option>D-</option>
-                <option>F, FNS</option>
+                <option>F</option>
                 
             </select>
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Upload Final Mark">
+            <input type="submit" 
+             class="btn btn-primary" 
+             value="Upload Final Mark"
+             onclick="upload()">
+            
         </div>
           </form>
 
