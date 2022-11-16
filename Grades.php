@@ -5,14 +5,19 @@ $mysqli = new mysqli("127.0.0.1", "root", "", "gms", 3306);
 if (!empty($_POST))
   {
   $sql="DELETE FROM `grades` 
-    WHERE StudentID = ?";
+    WHERE StudentID = ? AND AssignmentID  = ?";
      $stmt= $mysqli->prepare($sql);
-     $stmt->bind_param("i", $_POST["studentid"]);
+     $stmt->bind_param("ii", $_POST["studentid"], $_POST["assignmentid"]);
      $stmt->execute();
 
-  $sql = "INSERT INTO `grades` (Grades, StudentID) VALUES (?,?)";
+  $sql = "INSERT INTO `grades` (AssignmentID, Grade, StudentID) VALUES (?, ?,?)";
   $stmt= $mysqli->prepare($sql);
-  $stmt->bind_param("si", $_POST["grades"], $_POST["studentid"]);
+
+  $assignmentid = intval($_POST["assignmentid"]);
+  $grade = intval($_POST["grade"]);
+  $studentid = intval($_POST["studentid"]);
+  
+  $stmt->bind_param("iii", $assignmentid, $grade, $studentid);
   $stmt->execute();
   }
 $result = $mysqli->query("SELECT * FROM students");
@@ -20,8 +25,18 @@ $students = array ();
 foreach ($result as $row) {
   $students[$row['StudentID']] = $row['FirstName'] . " " . $row['LastName'];
 }
+$result->close();
+
+$result = $mysqli->query("SELECT * FROM assignments");
+$assignments = array ();
+foreach ($result as $row) {
+  $assignments[$row['AssignmentID']] = $row['Name'];
+}
 
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,10 +59,9 @@ foreach ($result as $row) {
     <div>
         <ul id="navbar">
 <li><a href="home.html">Home</a></li>
- <li><a href="mycourses.html">My Courses</a></li>
- <li><a class="active" href="services.html">User Guide</a></li>
- <li><a href="myaccount.html">My account</a></li>
- <li><a href="login.html">Logout</a></li>
+ <li><a href="mycourses.php">My Courses</a></li>
+ <li><a href="myaccount.php">My account</a></li>
+ <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
       
@@ -72,37 +86,45 @@ foreach ($result as $row) {
       <h4><li><a class="active" href="teacher page.html">Home</a></li>
         <li><a href="Assignments.html">Assignments</a>
         <li><a href="Grades.php">Grades</a></li>
-        <li><a href="Final Marks.html">Final Marks</a></h4>
-      <main class="content">
-        <h2>Grades:</h2>
-        <p>William Lee: 87</p>
-        <p>Mohammad Ali: 74</p>
-        <p>Sophia Smith: 68</p>
-        
+        <li><a href="Final Marks.php">Final Marks</a></h4>
+      <main class="content">        
         <hr><br>
         <h2>Upload grades here:</h2>
-        <form>
+        <form action="Grades.php" method="POST">
           <div class="form-group row">
             <label for="selectStudent" class="col-sm-3 col-form-label">Select Student</label>
             <div class="col-sm-5">
-                <select id="selectStudent" class="form-control">
-                    <option>William Lee</option>
-                    <option>Mohammad Ali</option>
-                    <option>Sophia Smith</option>
+                <select id="selectStudent" class="form-control" name="studentid">
+                    <?php 
+                      foreach($students as $studentID => $name) {
+                        echo "<option value=\"$studentID\"> $name </option>";
+                      }
+                    ?>
+                </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="selectStudent" class="col-sm-3 col-form-label">Select Assignment</label>
+            <div class="col-sm-5">
+                <select id="selectStudent" class="form-control" name="assignmentid">
+                    <?php 
+                      foreach($assignments as $assignmentID => $name) {
+                        echo "<option value=\"$assignmentID\"> $name </option>";
+                      }
+                    ?>
                 </select>
             </div>
         </div>
         <div class="form-group row">
-            <label for="type-grade" class="col-sm-3 col-form-label">Type grade</label>
+            <label for="type-grade" class="col-sm-3 col-form-label" name="grade">Type grade</label>
             <div class="col-sm-5">
-                <input type="text" id="type-grade" class="form-control" placeholder="Type grade here">
+                <input type="text" id="type-grade" class="form-control" placeholder="Type grade here" name="grade">
             </div>
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Upload Grade">
         </div>
           </form>
-          <!DOCTYPE html>
 
 
         <br>
@@ -130,7 +152,7 @@ foreach ($result as $row) {
             <div class="col">
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
-                <a href="mycourses.html">View My Courses</a>
+                <a href="mycourses.php">View My Courses</a>
                 <a href="teacher page.html">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>
