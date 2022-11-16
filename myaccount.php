@@ -32,7 +32,6 @@ session_start();
 
             <div>
                 <ul id="navbar">
-				    <li><a href="home.html">Home</a></li>
                     <?php
                     if ((isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
                         echo "<li><a href=\"mycourses.php\">My Courses</a></li>";
