@@ -92,9 +92,9 @@ $con->close();
 
             <div>
                 <ul id="navbar">
-				    <li><a href="home.html">Home</a></li>
                     <li><a href="mycourses.php">My Courses</a></li>
-					<li><a class="active" href="login.php">My account</a></li>
+		    <li><a class="active" href="login.php">My account</a></li>
+		    <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </section>
