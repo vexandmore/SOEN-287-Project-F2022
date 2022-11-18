@@ -1,5 +1,6 @@
 <?php
-session_start();
+include "login-resources/session-check-student.php";
+
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
@@ -33,9 +34,8 @@ if ($result -> num_rows > 0){
     $grades_contents .= '</table>';
 
 }
-else{
-    echo "No values to display";
-}
+// If there are no rows, the student has no grades yet;
+// this is a normal scenario, so no error.
 $connect -> close();
 ?>
 
