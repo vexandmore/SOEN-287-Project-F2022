@@ -45,40 +45,39 @@
                 <h3 style="text-decoration-line: underline">Enter your information below:</h3>
             </form>
         </section>
-        <label>
-            <input onclick="teacherLink()" type="checkbox" name="teacher_check"
-            id="teacher_check" value=teacher-check/>
-            I am a teacher
-        </label>
         <pre></pre>
         <section id="form-details">
             <form action="register.php" method="POST" id="signup_form">
+                <label>
+                    <input type="checkbox" name="teacher_check"
+                    id="teacher_check" value="teacher-check"/>
+                    I am a teacher
+                </label>
 
-                <h5 style="color:darkgray">Full Name</h5>
                 <span>
                     <label>
-                        <input type="text" placeholder="LAST NAME"
+                        <h5 style="color:darkgray">Full Name</h5>
+                        <input class="full-width" type="text" placeholder="LAST NAME"
                         id="last_name" name="lastName"/>
+                        <input class="full-width" type="text" placeholder="FIRST NAME"
+                        id="first_name" name="firstName"/>
+                    </label>
+
+                
+                    <label>
+                        <h5 style="color:darkgray">Email Address</h5>    
+                        <input class='full-width' type="email" placeholder="Email"
+                        id="user_email" name="email"/>
                     </label>
 
                     <label>
-                        <input type="text" placeholder="FIRST NAME"
-                        id="first_name" name="firstName"/>
-                    </label>                
-                    <pre></pre>
-                <h5 style="color:darkgray">Email Address</h5>    
-                    <label>
-                        <input type="email" placeholder="Email"
-                        id="user_email" name="email"/>
-                    </label>
-                    <label>
                         <h5 style="color:darkgray">ID Number</h5>
-                        <input type="text" placeholder="ID Number"
+                        <input class="full-width" type="text" placeholder="ID Number"
                         id="student_id" name="id"/>
                     </label>
                     <label>
                         <h5 style="color:darkgray">Password</h5>
-                        <input type="password" placeholder="Password"
+                        <input class="full-width" type="password" placeholder="Password"
                         id="password" name="password"/>
                     </label>
                     <h5 style="color:red" id="input_error">Please enter a valid First Name</h5>

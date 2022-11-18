@@ -44,32 +44,48 @@ if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 	exit('Email is not valid');
 }
 
+if (isset($_POST['teacher_check']) && $_POST['teacher_check'] = "teacher-check") {
+	$table = "teachers";
+	$id_column = "TeacherID";
+	$logged_in_page = "teacher page.html";
+} else {
+	$table = "students";
+	$id_column = "StudentID";
+	$logged_in_page = "mycourses.php";
+}
 
-// Verifying existence of email (i.e. the account)
-if ($stmt = $con->prepare('SELECT email, `password` FROM students WHERE email = ?')) {
+// Verifying existence of id (i.e. the account)
+if ($stmt = $con->prepare("SELECT $id_column FROM $table WHERE $id_column = ?")) {
 	
-	$stmt->bind_param('s', $_POST['email']);
+	$stmt->bind_param('s', $_POST['id']);
 	$stmt->execute();
 	$stmt->store_result();
 	// Store the result and check if the email is already registered
 	if ($stmt->num_rows > 0) {
 		// email exists already
-		echo 'Email is already registered';
+		echo 'id is already registered';
 	} else {
 	
     //new email, account can be created
-if ($stmt = $con->prepare('INSERT INTO students (FirstName, LastName, Email, StudentID, Password) VALUES (?, ?, ?, ?, ?)')) {
-	$firstname = $_POST['firstName'];
-	$lastname = $_POST['lastName'];
-	$email = $_POST['email'];
-	$id = intval($_POST['id']);
-	$password = $_POST['password'];
-	$stmt->bind_param('sssis', $firstname, $lastname, $email, $id, $password);
-	$stmt->execute();
-	echo 'You have successfully registered, you can now login!';
-} else {
-	echo 'Could not prepare statement!';
-}
+		if ($stmt = $con->prepare("INSERT INTO $table (FirstName, LastName, Email, $id_column, Password) VALUES (?, ?, ?, ?, ?)")) {
+			$firstname = $_POST['firstName'];
+			$lastname = $_POST['lastName'];
+			$email = $_POST['email'];
+			$id = intval($_POST['id']);
+			$password = $_POST['password'];
+			$stmt->bind_param('sssis', $firstname, $lastname, $email, $id, $password);
+			$stmt->execute();
+			// Now that the account is created, log them in by initializing the session
+			session_start();
+			$_SESSION['loggedin'] = true;
+			$_SESSION['Name'] = $firstname . ' ' . $lastname;
+			$_SESSION[$id_column] = $id;
+			$_SESSION['Email'] = $email;
+			header("Location: $logged_in_page");
+			die();
+		} else {
+			echo 'Could not prepare statement!';
+		}
 	}
 	$stmt->close();
 } else {
