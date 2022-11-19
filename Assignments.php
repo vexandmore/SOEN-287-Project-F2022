@@ -1,3 +1,8 @@
+<?php
+// run session_start() and check if logged in as teacher
+include "login-resources/session-check-teacher.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +50,7 @@
       <div>
         <ul id="navbar">
         <h1><li><a href="teacher page.php">Home</a></li>
-          <li><a class="active" href="Assignments.html">Assignments</a></li>
+          <li><a class="active" href="Assignments.php">Assignments</a></li>
           <li><a href="Grades.php">Grades</a></li>
           <li><a href="Final Marks.php">Final Marks</a></h1>
         </ul>

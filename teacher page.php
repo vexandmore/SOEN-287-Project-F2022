@@ -1,7 +1,9 @@
 <?php
+// run session_start() and check if logged in as teacher
 include "login-resources/session-check-teacher.php";
 ?>
-
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,7 +47,7 @@ include "login-resources/session-check-teacher.php";
       
       </aside>
       <h4><li><a class="active" href="teacher page.php">Home</a></li>
-        <li><a href="Assignments.html">Assignments</a>
+        <li><a href="Assignments.php">Assignments</a>
         <li><a href="Grades.php">Grades</a></li>
         <li><a href="Final Marks.php">Final Marks</a></h4>
       <main class="content">
