@@ -349,3 +349,11 @@ footer .pay .row i{
 .section-m1{
     margin: 40px 0;
 }
+
+
+/*
+Styles for the login error page
+*/
+#error-section {
+    padding: 15px;
+}

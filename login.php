@@ -178,7 +178,7 @@ $con->close();
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
                 <a href="mycourses.php">View My Courses</a>
-                <a href="teacher page.html">View Teacher's page</a>
+                <a href="teacher page.php">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>
         </footer>

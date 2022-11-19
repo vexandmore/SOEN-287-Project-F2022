@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>User Login Page</title>
-        <link rel="stylesheet" href="style2.css">
+        <link rel="stylesheet" href="../style2.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     </head>
     <body>
@@ -15,9 +15,7 @@
 
             <div>
                 <ul id="navbar">
-                    <li><a href="mycourses.php">My Courses</a></li>
-		    <li><a class="active" href="login.php">My account</a></li>
-		    <li><a href="logout.php">Logout</a></li>
+		            <li><a href="../logout.php">Login</a></li>
                 </ul>
             </div>
         </section>
@@ -25,11 +23,12 @@
         <section id="page-header">
             <h2>ERROR!</h2>
         </section>
-        <h2> <?php echo $error_code; ?></h2>
-        <p>
-            <?php echo $login_error; ?>
-        </p>
-        
+        <section id="error-section">
+            <h2> <?php echo $error_code; ?></h2>
+            <p>
+                <?php echo $login_error; ?>
+            </p>
+        </section>
         
 	
 	<footer class="section-p1">
@@ -52,9 +51,9 @@
 
             <div class="col">
                 <h4>My Account</h4>
-                <a href="signup page.html">Sign up</a>
-                <a href="mycourses.php">View My Courses</a>
-                <a href="teacher page.html">View Teacher's page</a>
+                <a href="../signup page.html">Sign up</a>
+                <a href="../mycourses.php">View My Courses</a>
+                <a href="../teacher page.php">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>
         </footer>

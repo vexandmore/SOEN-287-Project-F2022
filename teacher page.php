@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include "login-resources/session-check-teacher.php";
+?>
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Assignments</title>
+  <title>Home</title>
   <link rel="stylesheet" href="style2.css">
   <link rel="stylesheet" href="grades-style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -18,7 +20,7 @@
 
     <div>
         <ul id="navbar">
- <li><a href="mycourses.php">My Courses</a></li>
+ <li><a class="active" href="mycourses.php">My Courses</a></li>
  <li><a href="myaccount.php">My account</a></li>
  <li><a href="logout.php">Logout</a></li>
         </ul>
@@ -35,42 +37,32 @@
       <aside class="left">
         <section id="page-header">
           <br>
-          <h2>Assignments</h2>
+          <h2>Home</h2>
         <ul>
           
         
         </ul>
       
       </aside>
-      <div>
-        <ul id="navbar">
-        <h1><li><a href="teacher page.php">Home</a></li>
-          <li><a class="active" href="Assignments.html">Assignments</a></li>
-          <li><a href="Grades.php">Grades</a></li>
-          <li><a href="Final Marks.php">Final Marks</a></h1>
-        </ul>
-      </div>
-    <main class="content">
-      <h2>Assignments:</h2>
-      <p>Assignment 1</p>
-      <p>Assignment 2</p>
-      
-      <hr><br>
-      <h2>Upload assignments here:</h2>
-      <form>
-        <section id="addAssignment">
-          <form>
-              <input type="text" placeholder="Select folder">
-              <br/>
-              <input class="btn btn-primary" type="submit" value="Upload Assignment">
-          </form>
-        </section>
-     </form>
-
-     
+      <h4><li><a class="active" href="teacher page.php">Home</a></li>
+        <li><a href="Assignments.html">Assignments</a>
+        <li><a href="Grades.php">Grades</a></li>
+        <li><a href="Final Marks.php">Final Marks</a></h4>
+      <main class="content">
+        <h2>Personal information</h2>
+        <p>First Name: Luke</p>
+        <p>Last Name: Lawson</p>
+        <hr><br>
+        <h2>IT Desk: How Can I Help You?</h2>
+        
+        <form>
+          <label>Name:<input type="text" name="name"></label><br>
+          <label>Email: <input type="text" name="email"></label><br>
+          <textarea name="comments" rows="4">Enter your message</textarea><br>
+          <input type="submit" value="Submit" /><br>
+        </form>
       </main>
     </div>
-      
       <footer class="section-p1">
             <div class="col">
                 <i class="bi bi-shop"></i>
@@ -92,11 +84,10 @@
             <div class="col">
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
-                <a href="mycourses.php">View My Courses</a>
+                <a href="mycourses.html">View My Courses</a>
                 <a href="teacher page.php">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>
         </footer>
-  </body>
+  </body> 
   </html>
-  

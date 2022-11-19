@@ -82,7 +82,7 @@ foreach ($result as $row) {
         </ul>
       
       </aside>
-      <h4><li><a class="active" href="teacher page.html">Home</a></li>
+      <h4><li><a class="active" href="teacher page.php">Home</a></li>
         <li><a href="Assignments.html">Assignments</a>
         <li><a href="Grades.php">Grades</a></li>
         <li><a href="Final Marks.php">Final Marks</a></h4>
@@ -152,7 +152,7 @@ foreach ($result as $row) {
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
                 <a href="mycourses.php">View My Courses</a>
-                <a href="teacher page.html">View Teacher's page</a>
+                <a href="teacher page.php">View Teacher's page</a>
                 <a href="#">User Guide</a>
             </div>
         </footer>

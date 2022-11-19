@@ -47,7 +47,7 @@ if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 if (isset($_POST['teacher_check']) && $_POST['teacher_check'] = "teacher-check") {
 	$table = "teachers";
 	$id_column = "TeacherID";
-	$logged_in_page = "teacher page.html";
+	$logged_in_page = "teacher page.php";
 } else {
 	$table = "students";
 	$id_column = "StudentID";
