@@ -1,8 +1,50 @@
 <?php
-session_start();
+include "login-resources/session-check.php";
 
+$DATABASE_HOST = 'localhost';
+$DATABASE_USER = 'root';
+$DATABASE_PASS = '';
+$DATABASE_NAME = 'gms';
+
+// creating a connection and checking whether the connection can be established 
+$connect = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
+ /*if (my_sqli_connect_errno()){
+    exit('Failed to connect to MySQL' .mysqli_connect_error());
+ }*/
+
+$sql = "SELECT 'Student' Type, s.FirstName, s.LastName
+        FROM students s
+        UNION ALL 
+        SELECT  'Teacher' Type, t.FirstName, t.LastName
+        FROM teachers t
+        ORDER BY LastName ASC;";
+$result = $connect->query($sql);
+
+$participants_contents = "";
+
+// check if the sql database has at least 1 row
+if ($result -> num_rows > 0){
+    // makes a table from the db values
+   $participants_contents = '<table class="table">
+            <tr>
+                <th  style=\'width: 150px;\'> Name </th>
+                <th  style=\'width: 150px;\'> Role </th>
+            </tr>';
+    foreach ($result as $row){
+        $name = $row['FirstName'] . " " . $row['LastName'];
+        $type = $row['Type'];
+        $participants_contents .= "<tr>";
+        $participants_contents .=     "<td> $name </td>";
+        $participants_contents .=     "<td> $type </td>";
+        $participants_contents .=    "</tr>";
+    }
+    $participants_contents .= '</table>';
+
+}
+// If there are no rows, the student has no grades yet;
+// this is a normal scenario, so no error.
+$connect -> close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,20 +52,14 @@ session_start();
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>User Login Page</title>
+        <title>Grades</title>
         <link rel="stylesheet" href="style2.css">
+        <link rel="stylesheet" href="grades-style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+        <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 		
-        <style>
-            table {
-                max-width: 500px;
-            }
-
-            #user-info {
-                padding: 15px;
-            }
-        </style>
+	
     </head>
     <body>
 
@@ -32,55 +68,31 @@ session_start();
 
             <div>
                 <ul id="navbar">
-                    <?php
+                <?php
                     if ((isset($_SESSION['StudentID']))) {
                         echo "<li><a href=\"mycourses.php\">My Courses</a></li>";
                     } else {
                         echo "<li><a href=\"teacher page.php\">My Courses</a></li>";
                     }
-                    ?>
-                    <li><a href="participants.php">Participants</a></li>
-					<li><a class="active" href="myaccount.php">My account</a></li>
+                ?>
+                    <li><a class="active" href="participants.php">Participants</a></li>
+		            <li><a href="myaccount.php">My account</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </section>
 
         <section id="page-header">
-            <h2>USER PAGE</h2>
+            <h2>PARTICIPANTS</h2>
         </section>
-        <section id="user-info">
-            <h3>Data</h3>
-            <table class="table">
-                <thead>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <?php
-                    if (isset($_SESSION['StudentID'])) {
-                        echo "<th>Student ID</th>";
-                    } else {
-                        echo "<th>Teacher ID</th>";
-                    }
-                    ?>
-                </thead>
-                <tbody>
-                    <tr>
-                        <?php
-                        if (isset($_SESSION['StudentID'])) {
-                            echo "<td> " . $_SESSION['Name'] . "</td>";
-                            echo "<td> " . $_SESSION['Email'] . "</td>";
-                            echo "<td> " . $_SESSION['StudentID'] . "</td>";   
-                        } else {
-                            echo "<td> " . $_SESSION['Name'] . "</td>";
-                            echo "<td> " . $_SESSION['Email'] . "</td>";
-                            echo "<td> " . $_SESSION['TeacherID'] . "</td>";
-                        }
-                        ?>
-                    </tr>
-                </tbody>
-            </table>
+
+        <section id="grades">
+            <h2>Participants</h2>
+            <?php
+                echo $participants_contents;
+            ?>
         </section>
-	
+        
 	<footer class="section-p1">
             <div class="col">
                 <i class="bi bi-shop"></i>
@@ -108,5 +120,7 @@ session_start();
             </div>
         </footer>
 
+        <script src="demo-data.js"></script>
+        <script src="student-grades.js"></script>
     </body>
 </html>

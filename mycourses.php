@@ -62,7 +62,8 @@ $connect -> close();
             <div>
                 <ul id="navbar">
                     <li><a class="active" href="mycourses.php">My Courses</a></li>
-		    <li><a href="myaccount.php">My account</a></li>
+                    <li><a href="participants.php">Participants</a></li>
+		            <li><a href="myaccount.php">My account</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
