@@ -4,72 +4,69 @@ $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
 $DATABASE_NAME = 'gms';
 
-//connection CHECK
-$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-if ( mysqli_connect_errno() ) {
-	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-}
-
-
-session_start();
-// If user is logged in, redirect to welcome page
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    header("location: mycourses.php");
-    exit;
-}
-
-$email = $password = "";
-$email_error = $password_error = "";
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $email = trim($_POST['email']);
-    if (empty($email)) {
-        $email_error = "No email provided";
-    }
-    $password = trim($_POST['password']);
-    if (empty($password)) {
-        $password_error = "No password provided";
-    }
-
-    if (empty($email_error) && empty($password_error)) {
-        $sql = "SELECT StudentID, FirstName, LastName, Email, Password
-                FROM students 
-                WHERE Email=?";
-        if ($statement = $con->prepare($sql)) {
-            $statement->bind_param('s', $email);
-            $statement->execute();
-	        $statement->store_result();
-            if ($statement->num_rows() == 1) {
-                $statement->bind_result($StudentID, $FirstName, $LastName, $Email, $DB_Password);
-                $statement->fetch();
-                if ($DB_Password == $password) {
-                    // Login is successful, start new session
-                    session_start();
-                    $_SESSION['loggedin'] = true;
-                    $_SESSION['Name'] = $FirstName . ' ' . $LastName;
-                    $_SESSION['StudentID'] = $StudentID;
-                    $_SESSION['Email'] = $Email;
-                    // Redirect to marks page
-                    header("location: mycourses.php");
-                    exit;
-
+try {
+    $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
+    
+    $email = $password = "";
+    $email_error = $password_error = "";
+    
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $email = trim($_POST['email']);
+        if (empty($email)) {
+            $email_error = "No email provided";
+        }
+        $password = trim($_POST['password']);
+        if (empty($password)) {
+            $password_error = "No password provided";
+        }
+    
+        if (empty($email_error) && empty($password_error)) {
+            $sql = "SELECT StudentID, FirstName, LastName, Email, Password
+                    FROM students 
+                    WHERE Email=?";
+            if ($statement = $con->prepare($sql)) {
+                $statement->bind_param('s', $email);
+                $statement->execute();
+                $statement->store_result();
+                if ($statement->num_rows() == 1) {
+                    $statement->bind_result($StudentID, $FirstName, $LastName, $Email, $DB_Password);
+                    $statement->fetch();
+                    if ($DB_Password == $password) {
+                        // Login is successful, start new session
+                        session_start();
+                        $_SESSION['loggedin'] = true;
+                        $_SESSION['Name'] = $FirstName . ' ' . $LastName;
+                        $_SESSION['StudentID'] = $StudentID;
+                        $_SESSION['Email'] = $Email;
+                        // Redirect to marks page
+                        header("location: mycourses.php");
+                        exit;
+    
+                    } else {
+                        // Wrong password
+                        $login_error = "Invalid Email or Password ";
+                    }
                 } else {
-                    // Wrong password
-                    $login_error = "Invalid Email or Password ";
+                    // Wrong username
+                    $login_error = "Invalid Email or Password";
                 }
+    
+                $statement->close();
             } else {
-                // Wrong username
-                $login_error = "Invalid Email or Password";
+                $login_error = "something went wrong";
             }
-
-            $statement->close();
-        } else {
-            $login_error = "something went wrong";
         }
     }
+    
+    $con->close();
+} catch (mysqli_sql_exception $e) {
+    if (!empty(mysqli_connect_error())) {
+        $login_error = 'Connection error: ' . mysqli_connect_error();
+    } else {
+        $login_error = 'error: ' . mysqli_error($con);
+    }
 }
 
-$con->close();
 ?>
 
 
