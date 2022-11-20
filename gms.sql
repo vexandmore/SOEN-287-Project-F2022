@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2022 at 05:53 AM
+-- Generation Time: Nov 20, 2022 at 07:48 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -57,9 +57,9 @@ CREATE TABLE `final grades` (
 --
 
 INSERT INTO `final grades` (`StudentID`, `FinalGrade`) VALUES
-(40215874, 'A+'),
 (40275648, 'B-'),
-(40291824, 'B');
+(40291824, 'B'),
+(40215874, 'A+');
 
 -- --------------------------------------------------------
 
@@ -78,15 +78,16 @@ CREATE TABLE `grades` (
 --
 
 INSERT INTO `grades` (`AssignmentID`, `StudentID`, `Grade`) VALUES
-(1, 40291824, 80),
-(1, 40215874, 90),
 (2, 40291824, 92),
 (3, 40291824, 82),
 (3, 40215874, 75),
 (1, 40275648, 80),
 (2, 40275648, 95),
 (3, 40275648, 81),
-(2, 40215874, 91);
+(2, 40215874, 91),
+(1, 40212004, 1),
+(1, 40291824, 100),
+(1, 40215874, 99);
 
 -- --------------------------------------------------------
 
@@ -107,9 +108,31 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`StudentID`, `FirstName`, `LastName`, `Password`, `Email`) VALUES
-(40215874, 'Phillipe', 'Tremblay', 'asdf', ''),
+(40215874, 'Phillipe', 'Tremblay', 'asdf', 'phil@gmail.com'),
 (40275648, 'Thomas', 'Lavoie', 'abc', 'thom314@outlook.com'),
 (40291824, 'William', 'Lee', 'qwer', 'wilLee@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teachers`
+--
+
+CREATE TABLE `teachers` (
+  `FirstName` varchar(128) NOT NULL,
+  `LastName` varchar(128) NOT NULL,
+  `Email` varchar(128) NOT NULL,
+  `Password` varchar(128) NOT NULL,
+  `TeacherID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `teachers`
+--
+
+INSERT INTO `teachers` (`FirstName`, `LastName`, `Email`, `Password`, `TeacherID`) VALUES
+('Luke', 'Lawson', 'a@a.com', 'sss', 402999),
+('Marc', 'Scattolin', 'marcscattolin@gmail.com', '1234', 4021204);
 
 --
 -- Indexes for dumped tables
@@ -126,6 +149,12 @@ ALTER TABLE `assignments`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`StudentID`);
+
+--
+-- Indexes for table `teachers`
+--
+ALTER TABLE `teachers`
+  ADD PRIMARY KEY (`TeacherID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
