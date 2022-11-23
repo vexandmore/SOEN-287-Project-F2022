@@ -18,16 +18,11 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
     $result = $connect->query($sql);
     $grades_contents = "";
 
-// snip
-foreach ($result as $row){
-        $grades_contents .= '<tr>';
-        $grades_contents .=    '<td> Assignment ' .$row["AssignmentID"]. '</td>';
-        $grades_contents .=     ' <td> Grade: ' .$row["Grade"]. '</td>';
-        $grades_contents .=    '</tr>';
-    
-        
-    }
-        $Marks = $results/ //number of assignments? I was not sure what to do in that step
-        
-        echo $Marks
-    }
+     if (mysqli_num_rows($result)>0){
+         while($row = mysqli_fetch_assoc($result)){
+             
+           echo "<tr>";
+            echo "<td>" . $row['grades'] . " AVG: " . $row['//final grades? not sure where the average will appear'] . "</td>";
+            echo "</tr>";
+        }
+?>
