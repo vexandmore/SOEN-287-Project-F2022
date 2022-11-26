@@ -93,6 +93,8 @@ body{
     list-style: none;
     padding: 0 20px;
     position: relative;
+	float: left;
+    z-index: -5;
 }
 
 #navbar li a{
