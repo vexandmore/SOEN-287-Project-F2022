@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 20, 2022 at 07:48 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Generation Time: Nov 26, 2022 at 04:08 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,17 +29,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `assignments` (
   `AssignmentID` int(11) NOT NULL,
-  `Name` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Name` varchar(128) NOT NULL,
+  `Weight` decimal(10,5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `assignments`
 --
 
-INSERT INTO `assignments` (`AssignmentID`, `Name`) VALUES
-(1, 'Assignment1'),
-(2, 'Assignment2'),
-(3, 'Assignment3');
+INSERT INTO `assignments` (`AssignmentID`, `Name`, `Weight`) VALUES
+(1, 'Assignment1', '0.25000'),
+(2, 'Assignment2', '0.25000'),
+(3, 'Assignment3', '0.50000');
 
 -- --------------------------------------------------------
 
@@ -50,7 +51,7 @@ INSERT INTO `assignments` (`AssignmentID`, `Name`) VALUES
 CREATE TABLE `final grades` (
   `StudentID` int(11) NOT NULL,
   `FinalGrade` char(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `final grades`
@@ -71,7 +72,7 @@ CREATE TABLE `grades` (
   `AssignmentID` int(11) NOT NULL,
   `StudentID` int(11) NOT NULL,
   `Grade` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `grades`
@@ -101,7 +102,7 @@ CREATE TABLE `students` (
   `LastName` varchar(128) NOT NULL,
   `Password` varchar(128) NOT NULL,
   `Email` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `students`
@@ -124,7 +125,7 @@ CREATE TABLE `teachers` (
   `Email` varchar(128) NOT NULL,
   `Password` varchar(128) NOT NULL,
   `TeacherID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `teachers`

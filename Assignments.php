@@ -1,6 +1,32 @@
 <?php
 // run session_start() and check if logged in as teacher
 include "login-resources/session-check-teacher.php";
+
+// connect to database
+$DATABASE_HOST = 'localhost';
+$DATABASE_USER = 'root';
+$DATABASE_PASS = '';
+$DATABASE_NAME = 'gms';
+
+// creating a connection and checking whether the connection can be established 
+try {
+  $connect = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
+} catch (mysqli_sql_exception $e) {
+  die("Error connecting to database " . $e);
+}
+
+// Load assignments in from db into $assignmentsInfo variable
+$sql = "SELECT Name, Weight, AssignmentID FROM assignments;";
+$assignments = mysqli_query($connect, $sql);
+if (mysqli_num_rows($assignments) == 0) {
+  $assignmentsInfo = [];
+} else {
+  while ($assignment = mysqli_fetch_assoc($assignments)) {
+    $assignmentsInfo[$assignment['AssignmentID']] = ['Name' => $assignment['Name'], 'Weight' => $assignment['Weight']];
+  }
+}
+
+$connect->close();
 ?>
 
 <!DOCTYPE html>
@@ -58,8 +84,21 @@ include "login-resources/session-check-teacher.php";
       </div>
     <main class="content">
       <h2>Assignments:</h2>
-      <p>Assignment 1</p>
-      <p>Assignment 2</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Assignment Name</th>
+            <th>Assignment Weight</th>
+        </thead>
+        <?php
+        foreach ($assignmentsInfo as $id=>$info) {
+          echo "<tr>";
+          echo "<td><p>" . $info['Name'] . "</p></td>";
+          echo "<td><p>" . $info['Weight'] . "</p></td>";
+          echo "</tr>";
+        }
+        ?>
+      </table>
       
       <hr><br>
       <h2>Upload assignments here:</h2>
