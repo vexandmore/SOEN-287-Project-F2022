@@ -1,5 +1,6 @@
 <?php
 include "login-resources/session-check-student.php";
+include "api/studentData.php";
 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
@@ -19,24 +20,30 @@ $grades_contents = "";
 
 // check if the sql database has at least 1 row
 if ($result -> num_rows > 0){
-    // makes a table from the db values
-   $grades_contents = '<table>
-            <tr>
-                <th  style=\'width: 150px;\'> Assignment </th>
-                <th  style=\'width: 150px;\'> Grade </th>
-            </tr>';
-    foreach ($result as $row){
-        $grades_contents .= '<tr>';
-        $grades_contents .=    '<td> Assignment ' .$row["AssignmentID"]. '</td>';
-        $grades_contents .=     ' <td> Grade: ' .$row["Grade"]. '</td>';
-        $grades_contents .=    '</tr>';
+        // makes a table from the db values
+        $grades_contents = '<table class = "table">
+    <tr>
+        <th  style=\'width: 150px;\'> Assignment </th>
+        <th  style=\'width: 150px;\'> Grade </th>
+        <th  style=\'width: 150px;\'> Median </th>
+    </tr>';
+        $medianValues = array();
+        foreach ($assignments as $key => $value) {
+            $medianValues = $value;
+        }
+        foreach ($result as $row) {
+            $grades_contents .= '<tr>';
+            $grades_contents .=    '<td> Assignment ' . $row["AssignmentID"] . '</td>';
+            $grades_contents .=     ' <td>' . $row["Grade"] . '</td>';
+            $grades_contents .=     '<td>' . $medianValues . '</td>';
+            //  $grades_contents .=     '<td>' . $median . '</td>';
+            $grades_contents .=    '</tr>';
+        }
+        $grades_contents .= '</table>';
     }
-    $grades_contents .= '</table>';
-
-}
-// If there are no rows, the student has no grades yet;
-// this is a normal scenario, so no error.
-$connect -> close();
+    // If there are no rows, the student has no grades yet;
+    // this is a normal scenario, so no error.
+    $connect->close();
 ?>
 
 <!DOCTYPE html>
