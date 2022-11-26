@@ -85,10 +85,14 @@ foreach ($result as $row) {
         </ul>
       
       </aside>
-      <h4><li><a class="active" href="teacher page.php">Home</a></li>
-        <li><a href="Assignments.php">Assignments</a>
-        <li><a href="Grades.php">Grades</a></li>
-        <li><a href="Final Marks.php">Final Marks</a></h4>
+      <div>
+        <ul id="navbar">
+        <h1><li><a  href="teacher page.php">Home</a></li>
+          <li><a  href="Assignments.php">Assignments</a></li>
+          <li><a class="active" href="Grades.php">Grades</a></li>
+          <li><a href="Final Marks.php">Final Marks</a></h1>
+        </ul>
+      </div>
       <main class="content">        
         <hr><br>
         <h2>Upload grades here:</h2>
