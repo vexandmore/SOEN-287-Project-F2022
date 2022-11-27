@@ -83,15 +83,15 @@ $connect->close();
         </ul>
       </div>
     <main class="content">
-      <h2 class='text-success' id="confirmMessage"></h2>
-      <h2 class='text-danger' id="errorMessage"></h2>
+      <p class='bg-success msgBanner' id="confirmMessage"></p>
+      <p class='bg-danger msgBanner' id="errorMessage"></p>
       <h2>Assignments:</h2>
       <table class="table">
         <thead>
           <tr>
             <th>Assignment Name</th>
             <th>Assignment Weight</th>
-            <th>Set Assignment Weight</th>
+            <th>Change Assignment Weight</th>
         </thead>
         <?php
         foreach ($assignmentsInfo as $id=>$info) {
@@ -100,10 +100,10 @@ $connect->close();
           echo "<td><p>" . $info['Weight'] . "</p></td>";
           ?>
           <td>
-            <form action='ModifyAssignments.php' method='post'>
+            <form class='table-form' action='ModifyAssignments.php' method='post'>
               <input type='text' name='assignmentWeight' >
               <input type='hidden' name='assignmentID' value='<?php echo $id?>' >
-              <input type='submit' value='Set Weight'>
+              <input class='btn btn-primary' type='submit' value='Set Weight'>
             </form>
           </td>
           <?php
@@ -195,9 +195,11 @@ $connect->close();
           const params = new URLSearchParams(window.location.search);
           if (params.get("confirmMessage")) {
             document.getElementById('confirmMessage').innerText = params.get("confirmMessage");
+            document.getElementById('confirmMessage').style.display = 'block';
           }
           if (params.get("errorMessage")) {
             document.getElementById('errorMessage').innerText = params.get("errorMessage");
+            document.getElementById('errorMessage').style.display = 'block';
           }
         </script>
   </html>

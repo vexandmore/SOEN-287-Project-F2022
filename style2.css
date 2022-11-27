@@ -149,6 +149,26 @@ body{
     color: azure;
 }
 
+p.bg-success, p.bg-danger {
+    padding: 15px;
+    color: black;
+}
+.msgBanner {
+    display: none;
+}
+
+form.table-form {
+    display: flex;
+}
+
+form.table-form input {
+    margin-right: 10px;
+}
+
+form.table-form input[type='text'] {
+    width: 150px;
+}
+
 #form-details form{
     width: 65%;
     display: flex;
