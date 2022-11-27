@@ -1,5 +1,6 @@
 <?php
 include "login-resources/session-check-student.php";
+include "api/studentData.php";
 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
@@ -19,24 +20,30 @@ $grades_contents = "";
 
 // check if the sql database has at least 1 row
 if ($result -> num_rows > 0){
-    // makes a table from the db values
-   $grades_contents = '<table>
-            <tr>
-                <th  style=\'width: 150px;\'> Assignment </th>
-                <th  style=\'width: 150px;\'> Grade </th>
-            </tr>';
-    foreach ($result as $row){
-        $grades_contents .= '<tr>';
-        $grades_contents .=    '<td> Assignment ' .$row["AssignmentID"]. '</td>';
-        $grades_contents .=     ' <td> Grade: ' .$row["Grade"]. '</td>';
-        $grades_contents .=    '</tr>';
+        // makes a table from the db values
+        $grades_contents = '<table class = "table">
+    <tr>
+        <th  style=\'width: 150px;\'> Assignment </th>
+        <th  style=\'width: 150px;\'> Grade </th>
+        <th  style=\'width: 150px;\'> Median </th>
+    </tr>';
+        $medianValues = array();
+        foreach ($assignments as $key => $value) {
+            $medianValues = $value;
+        }
+        foreach ($result as $row) {
+            $grades_contents .= '<tr>';
+            $grades_contents .=    '<td> Assignment ' . $row["AssignmentID"] . '</td>';
+            $grades_contents .=     ' <td>' . $row["Grade"] . '</td>';
+            $grades_contents .=     '<td>' . $medianValues . '</td>';
+            //  $grades_contents .=     '<td>' . $median . '</td>';
+            $grades_contents .=    '</tr>';
+        }
+        $grades_contents .= '</table>';
     }
-    $grades_contents .= '</table>';
-
-}
-// If there are no rows, the student has no grades yet;
-// this is a normal scenario, so no error.
-$connect -> close();
+    // If there are no rows, the student has no grades yet;
+    // this is a normal scenario, so no error.
+    $connect->close();
 ?>
 
 <!DOCTYPE html>
@@ -63,8 +70,8 @@ $connect -> close();
                 <ul id="navbar">
                     <li><a class="active" href="mycourses.php">My Courses</a></li>
                     <li><a href="participants.php">Participants</a></li>
-		            <li><a href="myaccount.php">My account</a></li>
-                    <li><a href="logout.php">Logout</a></li>
+		            <li><a href="mycourses.php" data-bs-toggle="modal" data-bs-target="#exampleModal">My account</a></li>
+                    <li><a href="logout.php" >Logout</a></li>
                 </ul>
             </div>
         </section>
@@ -127,7 +134,44 @@ $connect -> close();
             </div>
         </footer>
 
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">My Account</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <tr>
+                        <?php
+                        if (isset($_SESSION['StudentID'])) {
+                            echo "<td id='myname'> " . $_SESSION['Name'] . "</td><br>";
+                            echo "<td id='myemail'> " . $_SESSION['Email'] . "</td><br>";
+                            echo "<td id='myid'> " . $_SESSION['StudentID'] . "</td><br>";   
+                        } else {
+                            echo "<td id='myname'> " . $_SESSION['Name'] . "</td><br>";
+                            echo "<td id='myemail'> " . $_SESSION['Email'] . "</td><br>";
+                            echo "<td id='myid'> " . $_SESSION['TeacherID'] . "</td><br>";
+                        }
+                        
+                        ?>
+                        
+
+                    </tr>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"> <a href="logout.php" style="color:white; text-decoration: none;">Logout</a> </button>
+                </div>
+                </div>
+            </div>
+        </div>
+
         <script src="demo-data.js"></script>
         <script src="student-grades.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
     </body>
 </html>
+

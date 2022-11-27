@@ -51,7 +51,7 @@ $connect->close();
         <ul id="navbar">
  <li><a href="teacher page.php">My Courses</a></li>
  <li><a href="participants.php">Participants</a></li>
- <li><a href="myaccount.php">My account</a></li>
+ <li><a href="Assignments.php" data-bs-toggle="modal" data-bs-target="#exampleModal">My account</a></li>
  <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
@@ -146,6 +146,39 @@ $connect->close();
                 </div>
             </div>
 
+            <div style="color: black;" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">My Account</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <tr>
+                        <?php
+                        if (isset($_SESSION['StudentID'])) {
+                            echo "<td id='myname' style=' color :black;'> " . $_SESSION['Name'] . "</td><br>";
+                            echo "<td id='myemail'> " . $_SESSION['Email'] . "</td><br>";
+                            echo "<td id='myid'> " . $_SESSION['StudentID'] . "</td><br>";   
+                        } else {
+                            echo '<td id="myname" style="color:black;"> ' . $_SESSION['Name'] . '</td><br>';
+                            echo "<td id='myemail'> " . $_SESSION['Email'] . "</td><br>";
+                            echo "<td id='myid'> " . $_SESSION['TeacherID'] . "</td><br>";
+                        }
+                        
+                        ?>
+                        
+
+                    </tr>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"> <a href="logout.php" style="color:white; text-decoration: none;">Logout</a> </button>
+                </div>
+                </div>
+            </div>
+        </div>
+
             <div class="col">
                 <h4>My Account</h4>
                 <a href="signup page.html">Sign up</a>
@@ -154,6 +187,9 @@ $connect->close();
                 <a href="#">User Guide</a>
             </div>
         </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
   </body>
         <script>
           const params = new URLSearchParams(window.location.search);
