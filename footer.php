@@ -37,14 +37,14 @@
                 <div class="modal-body">
                 <tr>
                         <?php
-                        if (isset($_SESSION['StudentID'])) {
-                            echo "<td id='myname' style=' color :black;'> " . $_SESSION['Name'] . "</td><br>";
-                            echo "<td id='myemail'> " . $_SESSION['Email'] . "</td><br>";
-                            echo "<td id='myid'> " . $_SESSION['StudentID'] . "</td><br>";   
+                        if (isset($_SESSION[\'StudentID\'])) {
+                            echo "<td id=\'myname\' style=\' color :black;\'> " . $_SESSION[\'Name\'] . "</td><br>";
+                            echo "<td id=\'myemail\'> " . $_SESSION[\'Email\'] . "</td><br>";
+                            echo "<td id=\'myid\'> " . $_SESSION[\'StudentID\'] . "</td><br>";   
                         } else {
-                            echo '<td id="myname" style="color:black;"> ' . $_SESSION['Name'] . '</td><br>';
-                            echo "<td id='myemail'> " . $_SESSION['Email'] . "</td><br>";
-                            echo "<td id='myid'> " . $_SESSION['TeacherID'] . "</td><br>";
+                            echo \'<td id="myname" style="color:black;"> \' . $_SESSION[\'Name\'] . \'</td><br>\';
+                            echo "<td id=\'myemail\'> " . $_SESSION[\'Email\'] . "</td><br>";
+                            echo "<td id=\'myid\'> " . $_SESSION[\'TeacherID\'] . "</td><br>";
                         }
                         
                         ?>
