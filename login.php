@@ -90,8 +90,8 @@ try {
             <div>
                 <ul id="navbar">
                     <li><a href="mycourses.php">My Courses</a></li>
-		    <li><a class="active" href="login.php">My account</a></li>
-		    <li><a href="logout.php">Logout</a></li>
+		            <li><a href="login.php">My account</a></li>
+		            <li><a class="active" href="login.php">Login</a></li>
                 </ul>
             </div>
         </section>
