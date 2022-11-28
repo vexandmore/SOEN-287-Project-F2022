@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $_SESSION['TeacherID'] = $TeacherID;
                     $_SESSION['Email'] = $Email;
                     // Redirect to marks page
-                    header("location: ../teacher%20page.php");
+                    header("location: teacher%20page.php");
                     exit;
 
                 } else {
@@ -69,7 +69,7 @@ $login_error = $email_error . $password_error . $login_error;
 
 if (!empty($login_error)) {
     $error_code = "403";
-    include "login_error.php";
+    include "login-resources/login_error.php";
 }
 
 $con->close();
