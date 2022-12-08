@@ -7,24 +7,20 @@ $DATABASE_NAME = 'gms';
 // creating a connection and checking whether the connection can be established 
 $connect = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 
-$sql = "SELECT AssignmentID, Grade FROM grades WHERE StudentID=40291824"; //hardcoded student ID in this part
+$sql = "SELECT g.Grade, a.Weight 
+        FROM grades g INNER JOIN assignments a ON a.AssignmentID=g.AssignmentID 
+        WHERE g.StudentID=40291824;"; //hardcoded student ID in this part
 $result = $connect->query($sql);
 
-$grades = [];
+
+
+$avg = 0;
 
 foreach ($result as $row) {
-    $grades[] = intval($row['Grade']);
+    $avg += intval($row['Grade']) * floatval($row['Weight']);
 }
 
-$sum=0;
-$count=0;
+echo $avg;
 
-foreach ($grades as $grade) {
-    $sum+=$grade;
-    count++;
-}
-
-echo $sum/$count;
-
-
+$connect->close();
 ?>
