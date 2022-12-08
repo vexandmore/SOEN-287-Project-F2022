@@ -123,6 +123,177 @@ $connect->close();
           </form>
         </section>
      </form>
+     
+     
+     
+     
+     <head>
+          <title> Use of JQuery to Add Edit Delete Table Row </title>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+      </head>
+      <body>
+      
+          <div class="container">
+              <h1> Upload Assignment here:</h1>
+              <form id="addcustomerform">
+                  <div class="form-group">
+                      <label>Assignment #:</label>
+                      <select type="text" name="selectAssignmentNB" id="txtAssignmentNB" class="form-control" value="" required="">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                      
+                  </div>
+                  <div class="form-group">
+                      <label>File:</label>
+                      <input type="file" name="file1" id="file1"></input>
+                  </div>
+                  <div class="form-group">
+                      <label>Due date:</label>
+                      <input type="text" name="txtDueDate" id="txtDueDate" class="form-control" value="" required="">
+                  </div>
+                  <button type="submit" id="btnaddAssignment" class="btn btn-primary save-btn">Upload Assignment</button>
+      
+              </form>
+              <br />
+              <fieldset>
+                  <legend>Assignment List
+                  </legend>
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>AssignmentID</th>
+                              <th>Assignment #</th>
+                              <th>File</th>
+                              <th>Due date</th>
+                          </tr>
+                      </thead>
+                      <tbody id="tblbody">
+      
+                      </tbody>
+                  </table>
+              </fieldset>
+          </div>
+      </body>
+
+
+
+
+
+      <script type="text/javascript">
+        function CreateUniqueAssignmentID()
+        {
+            const ID = Date.now();
+            return ID;
+        }
+        document.getElementById("btnaddAssignment").addEventListener("click", function (event) {
+            event.preventDefault()
+            var AssignmentID = CreateUniqueAssignmentID();
+            var AssignmentNB = document.getElementById("txtAssignmentNB").value;
+            var File = document.getElementById("file1").value;
+            var DueDate = document.getElementById("txtDueDate").value;
+            var btneditId = "btnedit" + AssignmentID;
+            var btndeleteId = "btndelete" + AssignmentID;
+            var tablerow = "<tr Id='" + AssignmentID + "'   data-AssignmentID='" + AssignmentID + "'   data-AssignmentNB='" + AssignmentNB + "' data File='" + File + "'   data-DueDate='" + DueDate + "'>"
+
+                          + "<td class='td-data'>" + AssignmentID + "</td>"
+                          + "<td class='td-data'>" + AssignmentNB + "</td>"
+                          + "<td class='td-data'>" + File + "</td>"
+                          + "<td class='td-data'>" + DueDate + "</td>"
+                          + "<td class='td-data'>" +
+                          "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+                          "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
+                          + "</td>"
+                          + "</tr>";
+            debugger;
+            document.getElementById('tblbody').innerHTML += tablerow;
+            document.getElementById('txtAssignmentNB').value = "";
+            document.getElementById('file1').value = "";
+            document.getElementById('txtDueDate').value = "";
+        });
+
+        function showeditrow(AssignmentID)
+        {
+            debugger;
+            var AssignmentRow = document.getElementById(AssignmentID); //this gives tr of  whose button was clicked
+
+            var data = AssignmentRow.querySelectorAll(".td-data");
+
+            /*returns array of all elements with
+            "row-data" class within the row with given id*/
+
+            var AssignmentID = data[0].innerHTML;
+            var AssignmentNB = data[1].innerHTML;
+            var File = data[2].innerHTML;
+            var DueDate = data[3].innerHTML;
+            var btneditId = "btnedit" + AssignmentID;
+            data[0].innerHTML = '<input name="txtupdate_AssignmentID"  disabled id="txtupdate_AssignmentID" value="' + AssignmentID + '"/>';
+            data[1].innerHTML='<input name="txtupdate_AssignmentNB" id="txtupdate_AssignmentNB" value="' + AssignmentNB + '"/>';
+            data[2].innerHTML='<input name="txtupdate_File" id="txtupdate_File" value="' + File + '"/>';
+            data[3].innerHTML='<input name="txtupdate_DueDate" id="txtupdate_DueDate" value="' + DueDate + '"/>';
+
+            data[4].innerHTML =
+                "<button class='btn btn-primary btn-xs btn-updateAssignment' onclick='updateassignments(" + AssignmentID + ")'>" +
+                "<i class='fa fa-pencil' aria-hidden='true'></i>Update</button>"
+                + "<button class='btn btn-warning btn-xs btn-cancelupdate' onclick='cancelupdate(" + AssignmentID + ")'><i class='fa fa-times' aria-hidden='true'></i>Cancel</button>"
+                + "<button class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'>"
+                + "<i class='fa fa-trash' aria-hidden='true'></i>Delete</button>"
+        }
+        function cancelupdate(AssignmentID)
+        {
+            debugger;
+            var btneditId = "btnedit" + AssignmentID;
+            var btndeleteId = "btndelete" + AssignmentID;
+
+            var AssignmentRow = document.getElementById(AssignmentID); //this gives tr of  whose button was clicked
+            var data = AssignmentRow.querySelectorAll(".td-data");
+
+            var AssignmentNB = AssignmentRow.getAttribute("data-AssignmentNB");
+            var File = AssignmentRow.getAttribute("data File");
+            var DueDate = AssignmentRow.getAttribute("data-DueDate");
+
+
+            data[0].innerHTML = AssignmentID;
+            data[1].innerHTML = AssignmentNB;
+            data[2].innerHTML = File;
+            data[3].innerHTML = DueDate;
+
+            var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+                          "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
+            data[4].innerHTML = actionbtn;
+        }
+        function deleteAssignmentRow(AssignmentID)
+        {
+            document.getElementById(AssignmentID).remove();
+        }
+        function updateassignments(AssignmentID)
+        {
+            var btneditId = "btnedit" + AssignmentID;
+            var btndeleteId = "btndelete" + AssignmentID;
+
+            var AssignmentRow = document.getElementById(AssignmentID); //this gives tr of  whose button was clicked
+            var data = AssignmentRow.querySelectorAll(".td-data");
+
+            var AssignmentNB = data[1].querySelector("#txtupdate_AssignmentNB").value;
+            var File = data[2].querySelector("#txtupdate_File").value;
+            var DueDate = data[3].querySelector("#txtupdate_DueDate").value;
+
+
+            data[0].innerHTML = AssignmentID;
+            data[1].innerHTML = AssignmentNB;
+            data[2].innerHTML = File;
+            data[3].innerHTML = DueDate;
+
+            var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+                          "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
+            data[4].innerHTML = actionbtn;
+        }
+    </script>
+
 
      
       </main>
