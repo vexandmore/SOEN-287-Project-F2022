@@ -16,13 +16,14 @@ try {
 }
 
 // Load assignments in from db into $assignmentsInfo variable
-$sql = "SELECT Name, Weight, AssignmentID FROM assignments;";
+$sql = "SELECT Name, Weight, AssignmentID, DueDate FROM assignments;";
 $assignments = mysqli_query($connect, $sql);
 if (mysqli_num_rows($assignments) == 0) {
   $assignmentsInfo = [];
 } else {
   while ($assignment = mysqli_fetch_assoc($assignments)) {
-    $assignmentsInfo[$assignment['AssignmentID']] = ['Name' => $assignment['Name'], 'Weight' => $assignment['Weight']];
+    $assignmentsInfo[$assignment['AssignmentID']] = 
+            ['Name' => $assignment['Name'], 'Weight' => $assignment['Weight'], 'DueDate' => $assignment['DueDate']];
   }
 }
 
@@ -113,14 +114,7 @@ $connect->close();
       </table>
       
       <hr><br>
-      <h2>Upload assignments here:</h2>
-      <form>
-        <section id="addAssignment">
-          <form>
-              <input type="text" placeholder="Select folder">
-              <br/>
-              <input class="btn btn-primary" type="submit" value="Upload Assignment">
-          </form>
+      
         </section>
      </form>
      
@@ -173,7 +167,22 @@ $connect->close();
                           </tr>
                       </thead>
                       <tbody id="tblbody">
-      
+                        <?php
+                        foreach ($assignmentsInfo as $id=>$attrs) {
+                          $DueDate = $attrs["DueDate"];
+
+                          echo "<tr id='$id' data-assignmentid='$id' data-assignmentnb='$id' file='blank for now' data-duedate='$DueDate'>";
+                          echo "<td class='td-data'>$id</td>";
+                          echo "<td class='td-data'>$id</td>";
+                          echo "<td class='td-data'>blank for now</td>";
+                          echo "<td class='td-data'>$DueDate</td>";
+                          echo "<td class='td-data'><button id='btnedit$id' class='btn btn-info btn-xs btn-editcustomer' 
+                                onclick='showeditrow($id)'> <i class='fa fa-pencil' aria-hidden='true'></i>Edit</button> </td>";
+                          echo "<td class='td-data'><button id='btndelete$id' class='btn btn-danger btn-xs btn-deleteAssignment' 
+                                onclick='deleteAssignmentRow($id)'> <i class='fa fa-trash' aria-hidden='true'></i>Delete</button> </td>";
+                          echo "</tr>";
+                        }
+                        ?>
                       </tbody>
                   </table>
               </fieldset>
@@ -291,6 +300,19 @@ $connect->close();
             var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
                           "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
             data[4].innerHTML = actionbtn;
+
+            // Actually add it to the database
+            var toSend = {"AssignmentID": AssignmentID, "DueDate": DueDate};
+            
+            xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4 && (xhr.status = 200)) {
+                alert('success! ' + xhr.responseText);
+              }
+            }
+            xhr.open("POST", "api/updateAssignment.php", true);
+            xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+            xhr.send(JSON.stringify(toSend));
         }
     </script>
 
