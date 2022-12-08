@@ -13,7 +13,9 @@ $connect = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATAB
     exit('Failed to connect to MySQL' .mysqli_connect_error());
  }*/
 
-$sql = "SELECT AssignmentID, Grade FROM grades WHERE StudentID=" . intval($_SESSION['StudentID']);
+$sql = "SELECT a.Name, g.AssignmentID, g.Grade
+        FROM grades g INNER JOIN assignments a ON a.AssignmentID=g.AssignmentID 
+        WHERE StudentID=" . intval($_SESSION['StudentID']) . ";";
 $result = $connect->query($sql);
 
 $grades_contents = "";
@@ -33,7 +35,7 @@ if ($result -> num_rows > 0){
         }
         foreach ($result as $row) {
             $grades_contents .= '<tr>';
-            $grades_contents .=    '<td> Assignment ' . $row["AssignmentID"] . '</td>';
+            $grades_contents .=    '<td> ' . $row["Name"] . '</td>';
             $grades_contents .=     ' <td>' . $row["Grade"] . '</td>';
             $grades_contents .=     '<td>' . $medianValues . '</td>';
             //  $grades_contents .=     '<td>' . $median . '</td>';
