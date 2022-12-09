@@ -114,6 +114,7 @@ foreach ($result as $row) {
                 </option>
             <?php
                 }
+                echo $avg;
                 $con->close();
             ?>
         </select>
