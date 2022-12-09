@@ -7,11 +7,11 @@ $DATABASE_NAME = 'gms';
 // creating a connection and checking whether the connection can be established 
 $connect = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 
-$StudentID =$_POST['StudentID'];
+$StudentID = intval($_POST['StudentID']);
 
 $sql = "SELECT g.Grade, a.Weight 
         FROM grades g INNER JOIN assignments a ON a.AssignmentID=g.AssignmentID 
-        WHERE g.StudentID=40291824;"; //hardcoded student ID in this part
+        WHERE g.StudentID=$StudentID;"; //hardcoded student ID in this part
 $result = $connect->query($sql);
 
 

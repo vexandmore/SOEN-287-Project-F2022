@@ -99,51 +99,29 @@ foreach ($result as $row) {
     <!-- main html  -->
     <div class="container">
       <h1>Student grade calculator</h1>
-      <div class="screen-body-item">
-        <div class="app">
-          <div class="form-group">
-            <!-- option for taking the input -->
-            <input
-              type="text"
-              class="form-control"
-              placeholder="ASSIGNMENT1"
-              id="assignment1"
-            />
-          </div>
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="ASSIGNMENT2"
-              id="assignment2"
-            />
-          </div>
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="MIDTERM"
-              id="midterm"
-            />
-          </div>
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="FINAL"
-              id="final"
-            />
-          </div>
-          <div>
-            <input
-              type="button"
-              value="Show percentage & letter grade"
-              class="btn btn-primary"
-              onclick="calculate()"
-            />
-          </div>
-        </div>
-      </div>
+      <?php
+      $con = mysqli_connect("localhost","root","","gms");
+      $sql = "SELECT * FROM students WHERE 1";
+      ?>
+      <form method="POST" Action="average calculator.php">
+        <label>Student ID: </label>
+        <select name="StudentID">
+            <?php
+            foreach ($con->query($sql) as $row) {        
+            ?>
+                <option value="<?php echo $row["StudentID"];?>">
+                <?php echo "(" . $row["StudentID"] . ") " . $row["FirstName"] . " " . $row["LastName"]; ?>
+                </option>
+            <?php
+                }
+                $con->close();
+            ?>
+        </select>
+        <br>
+        <input type="submit" value="Submit" name="submit" class="btn btn-primary">
+      </form>
+
+
       <!-- for showing the result-->
       <div class="form-group showdata">
         <p id="showdata"></p>
@@ -151,8 +129,6 @@ foreach ($result as $row) {
     </div>
     <!--adding external javascript file-->
     <script src="Grade_calc.js"></script>
-    <p>Insert the grades over 100%</p>
-    <p>Evaluation scheme: Assignment1 (10%); Assignment2 (10%); Midterm (30%); Final(50%). </p>
   </body>
 </html>
 
@@ -196,41 +172,8 @@ foreach ($result as $row) {
              class="btn btn-primary" 
              value="Upload Final Mark"
              >
-            <?php
- 
-$con = mysqli_connect("localhost","root","","gms");
-
-$sql = "SELECT * FROM students WHERE 1";
-
-?>
-<!DOCTYPE html>
-
-<body>
-    <form method="POST" Action="average calculator.php">
-        <label>Student ID: </label>
-        <select name="studentID">
-            <?php
-            foreach ($con->query($sql) as $row) {        
-            ?>
-                <option value="<?php echo $row["StudentID"];?>">
-                <?php echo $row["StudentID"]; ?>
-                </option>
-            <?php
-                }
-            ?>
-        </select>
-        <br>
-        <input type="submit" value="submit" name="submit">
-    </form>
-    <br>
-</body>
-</html>
         </div>
           </form>
-
-       
-
-        
        <br>
       </main>
     </div>
