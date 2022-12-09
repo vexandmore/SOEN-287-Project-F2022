@@ -36,10 +36,9 @@ if ($result -> num_rows > 0){
         foreach ($result as $row) {
             $grades_contents .= '<tr>';
             $grades_contents .=    '<td> ' . $row["Name"] . '</td>';
-            $grades_contents .=     ' <td>' . $row["Grade"] . '</td>';
-            $grades_contents .=     '<td>' . $medianValues . '</td>';
-            //  $grades_contents .=     '<td>' . $median . '</td>';
-            $grades_contents .=    '</tr>';
+            $grades_contents .=     '<td>' . $row["Grade"] . '</td>';
+            $grades_contents .=     '<td>' . getMedians($row["Name"]) . '</td>';
+            $grades_contents .= '</tr>';
         }
         $grades_contents .= '</table>';
     }
