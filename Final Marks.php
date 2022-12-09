@@ -206,7 +206,7 @@ $sql = "SELECT * FROM students WHERE 1";
 <!DOCTYPE html>
 
 <body>
-    <form method="POST">
+    <form method="POST" Action="average calculator.php">
         <label>Student ID: </label>
         <select name="studentID">
             <?php
