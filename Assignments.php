@@ -86,32 +86,7 @@ $connect->close();
     <main class="content">
       <p class='bg-success msgBanner' id="confirmMessage"></p>
       <p class='bg-danger msgBanner' id="errorMessage"></p>
-      <h2>Assignments:</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Assignment Name</th>
-            <th>Assignment Weight</th>
-            <th>Change Assignment Weight</th>
-        </thead>
-        <?php
-        foreach ($assignmentsInfo as $id=>$info) {
-          echo "<tr>";
-          echo "<td><p>" . $info['Name'] . "</p></td>";
-          echo "<td><p>" . $info['Weight'] . "</p></td>";
-          ?>
-          <td>
-            <form class='table-form' action='ModifyAssignments.php' method='post'>
-              <input type='text' name='assignmentWeight' >
-              <input type='hidden' name='assignmentID' value='<?php echo $id?>' >
-              <input class='btn btn-primary' type='submit' value='Set Weight'>
-            </form>
-          </td>
-          <?php
-          echo "</tr>";
-        }
-        ?>
-      </table>
+      
       
       <hr><br>
       
@@ -150,6 +125,10 @@ $connect->close();
                       <label>Due date:</label>
                       <input type="text" name="txtDueDate" id="txtDueDate" class="form-control" value="" required="">
                   </div>
+                  <div class="form-group">
+                      <label>Weight:</label>
+                      <input type="text" name="txtWeight" id="txtWeight" class="form-control" value="" required="">
+                  </div>
                   <button type="submit" id="btnaddAssignment" class="btn btn-primary save-btn">Upload Assignment</button>
       
               </form>
@@ -160,22 +139,25 @@ $connect->close();
                   <table class="table">
                       <thead>
                           <tr>
-                              <th>AssignmentID</th>
+                              <th>Assignment ID</th>
                               <th>Assignment #</th>
                               <th>File</th>
                               <th>Due date</th>
+                              <th>Weight</th>
                           </tr>
                       </thead>
                       <tbody id="tblbody">
                         <?php
                         foreach ($assignmentsInfo as $id=>$attrs) {
                           $DueDate = $attrs["DueDate"];
+                          $Weight = $attrs["Weight"];
 
-                          echo "<tr id='$id' data-assignmentid='$id' data-assignmentnb='$id' file='blank for now' data-duedate='$DueDate'>";
+                          echo "<tr id='$id' data-assignmentid='$id' data-assignmentnb='$id' file='description $id.pdf' data-duedate='$DueDate' data-weight='$Weight'>";
                           echo "<td class='td-data'>$id</td>";
                           echo "<td class='td-data'>$id</td>";
-                          echo "<td class='td-data'>blank for now</td>";
+                          echo "<td class='td-data'>description $id.pdf</td>";
                           echo "<td class='td-data'>$DueDate</td>";
+                          echo "<td class='td-data'>$Weight</td>";
                           echo "<td class='td-data'><button id='btnedit$id' class='btn btn-info btn-xs btn-editcustomer' 
                                 onclick='showeditrow($id)'> <i class='fa fa-pencil' aria-hidden='true'></i>Edit</button> </td>";
                           echo "<td class='td-data'><button id='btndelete$id' class='btn btn-danger btn-xs btn-deleteAssignment' 
@@ -201,18 +183,20 @@ $connect->close();
         }
         document.getElementById("btnaddAssignment").addEventListener("click", function (event) {
             event.preventDefault()
-            var AssignmentID = CreateUniqueAssignmentID();
             var AssignmentNB = document.getElementById("txtAssignmentNB").value;
+            var AssignmentID = CreateUniqueAssignmentID(AssignmentNB);
             var File = document.getElementById("file1").value;
             var DueDate = document.getElementById("txtDueDate").value;
+            var Weight = document.getElementById("txtWeight").value;
             var btneditId = "btnedit" + AssignmentID;
             var btndeleteId = "btndelete" + AssignmentID;
-            var tablerow = "<tr Id='" + AssignmentID + "'   data-AssignmentID='" + AssignmentID + "'   data-AssignmentNB='" + AssignmentNB + "' data File='" + File + "'   data-DueDate='" + DueDate + "'>"
+            var tablerow = "<tr Id='" + AssignmentID + "'   data-AssignmentID='" + AssignmentID + "'   data-AssignmentNB='" + AssignmentNB + "' file='" + File + "'   data-DueDate='" + DueDate + "'   data-Weight='" + Weight + "'>"
 
                           + "<td class='td-data'>" + AssignmentID + "</td>"
                           + "<td class='td-data'>" + AssignmentNB + "</td>"
                           + "<td class='td-data'>" + File + "</td>"
                           + "<td class='td-data'>" + DueDate + "</td>"
+                          + "<td class='td-data'>" + Weight + "</td>"
                           + "<td class='td-data'>" +
                           "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
                           "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
@@ -223,6 +207,7 @@ $connect->close();
             document.getElementById('txtAssignmentNB').value = "";
             document.getElementById('file1').value = "";
             document.getElementById('txtDueDate').value = "";
+            document.getElementById('txtWeight').value = "";
         });
 
         function showeditrow(AssignmentID)
@@ -239,13 +224,15 @@ $connect->close();
             var AssignmentNB = data[1].innerHTML;
             var File = data[2].innerHTML;
             var DueDate = data[3].innerHTML;
+            var Weight = data[4].innerHTML;
             var btneditId = "btnedit" + AssignmentID;
             data[0].innerHTML = '<input name="txtupdate_AssignmentID"  disabled id="txtupdate_AssignmentID" value="' + AssignmentID + '"/>';
             data[1].innerHTML='<input name="txtupdate_AssignmentNB" id="txtupdate_AssignmentNB" value="' + AssignmentNB + '"/>';
             data[2].innerHTML='<input name="txtupdate_File" id="txtupdate_File" value="' + File + '"/>';
             data[3].innerHTML='<input name="txtupdate_DueDate" id="txtupdate_DueDate" value="' + DueDate + '"/>';
+            data[4].innerHTML='<input name="txtupdate_Weight" id="txtupdate_Weight" value="' + Weight + '"/>';
 
-            data[4].innerHTML =
+            data[5].innerHTML =
                 "<button class='btn btn-primary btn-xs btn-updateAssignment' onclick='updateassignments(" + AssignmentID + ")'>" +
                 "<i class='fa fa-pencil' aria-hidden='true'></i>Update</button>"
                 + "<button class='btn btn-warning btn-xs btn-cancelupdate' onclick='cancelupdate(" + AssignmentID + ")'><i class='fa fa-times' aria-hidden='true'></i>Cancel</button>"
@@ -262,22 +249,36 @@ $connect->close();
             var data = AssignmentRow.querySelectorAll(".td-data");
 
             var AssignmentNB = AssignmentRow.getAttribute("data-AssignmentNB");
-            var File = AssignmentRow.getAttribute("data File");
+            var File = AssignmentRow.getAttribute("file");
             var DueDate = AssignmentRow.getAttribute("data-DueDate");
+            var Weight = AssignmentRow.getAttribute("data-Weight");
 
 
             data[0].innerHTML = AssignmentID;
             data[1].innerHTML = AssignmentNB;
             data[2].innerHTML = File;
             data[3].innerHTML = DueDate;
+            data[4].innerHTML = Weight;
 
             var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
                           "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
-            data[4].innerHTML = actionbtn;
+            data[5].innerHTML = actionbtn;
         }
         function deleteAssignmentRow(AssignmentID)
         {
             document.getElementById(AssignmentID).remove();
+
+            var toSend = {"AssignmentID": AssignmentID};
+
+            xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4 && (xhr.status = 200)) {
+                alert('success! ' + xhr.responseText);
+              }
+            }
+            xhr.open("POST", "api/deleteAssignment.php", true);
+            xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+            xhr.send(JSON.stringify(toSend));
         }
         function updateassignments(AssignmentID)
         {
@@ -290,19 +291,21 @@ $connect->close();
             var AssignmentNB = data[1].querySelector("#txtupdate_AssignmentNB").value;
             var File = data[2].querySelector("#txtupdate_File").value;
             var DueDate = data[3].querySelector("#txtupdate_DueDate").value;
+            var Weight = data[4].querySelector("#txtupdate_Weight").value;
 
 
             data[0].innerHTML = AssignmentID;
             data[1].innerHTML = AssignmentNB;
             data[2].innerHTML = File;
             data[3].innerHTML = DueDate;
+            data[4].innerHTML = Weight;
 
             var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showeditrow(" + AssignmentID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
                           "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteAssignment' onclick='deleteAssignmentRow(" + AssignmentID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
-            data[4].innerHTML = actionbtn;
+            data[5].innerHTML = actionbtn;
 
             // Actually add it to the database
-            var toSend = {"AssignmentID": AssignmentID, "DueDate": DueDate};
+            var toSend = {"AssignmentID": AssignmentID, "DueDate": DueDate, "Weight": Weight};
             
             xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
