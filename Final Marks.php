@@ -22,6 +22,7 @@ foreach ($result as $row) {
   $students[$row['StudentID']] = $row['FirstName'] . " " . $row['LastName'];
 }
 
+
 ?>
 
 <head>
@@ -195,7 +196,35 @@ foreach ($result as $row) {
              class="btn btn-primary" 
              value="Upload Final Mark"
              >
-            
+            <?php
+ 
+$con = mysqli_connect("localhost","root","","gms");
+
+$sql = "SELECT * FROM students WHERE 1";
+
+?>
+<!DOCTYPE html>
+
+<body>
+    <form method="POST">
+        <label>Student ID: </label>
+        <select name="studentID">
+            <?php
+            foreach ($con->query($sql) as $row) {        
+            ?>
+                <option value="<?php echo $row["StudentID"];?>">
+                <?php echo $row["StudentID"]; ?>
+                </option>
+            <?php
+                }
+            ?>
+        </select>
+        <br>
+        <input type="submit" value="submit" name="submit">
+    </form>
+    <br>
+</body>
+</html>
         </div>
           </form>
 
