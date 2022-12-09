@@ -1,6 +1,7 @@
 <?php
 include "login-resources/session-check-student.php";
 include "api/studentData.php";
+include "medianExtractor.php";
 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
@@ -98,14 +99,6 @@ if ($result -> num_rows > 0){
                 </thead>
                 <tbody></tbody>
             </table>
-            <h3 id="reportMedians">Assignment Medians</h3>
-            <table class="table" id="mediansTable">
-                <thead>
-                    <th>Assignment</th>
-                    <th>Median</th>
-                </thead>
-                <tbody></tbody>
-            </table>
         </section>
 	
 	<?php include 'footer.php';?>
@@ -142,8 +135,6 @@ if ($result -> num_rows > 0){
                 </div>
             </div>
         </div>
-
-        <script src="demo-data.js"></script>
         <script src="student-grades.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 

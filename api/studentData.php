@@ -3,7 +3,13 @@
 // Connect to database
 $mysqli = new mysqli("127.0.0.1", "root", "", "gms", 3306);
 
-session_start();
+
+if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
+    // called directly
+    session_start();
+}
+
+
 // If not logged in, return error
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     echo "ERROR: not logged in";
@@ -131,25 +137,25 @@ $standardDeviation = round(sqrt($standardDeviation));
 $out = array (
     "assignments" => $assignments,
     "studentData" => array(
-        array(
-            "name" => "Sophie", 
-            "assignments" => array(
-                array("name" => "Assignment1", "grade" => 88),
-                array("name" => "Assignment2", "grade" => 70),
-                array("name" => "Assignment3", "grade" => 92)
-            ),
-            "report" => array(
-                "standard-deviation" => $standardDeviation,
-                "rank" => $rank,
-                "percentile" => $percentile
-            )
+        "assignments" => array(
+            array("name" => "Assignment1", "grade" => 88),
+            array("name" => "Assignment2", "grade" => 70),
+            array("name" => "Assignment3", "grade" => 92)
+        ),
+        "report" => array(
+            "standard-deviation" => $standardDeviation,
+            "rank" => $rank,
+            "percentile" => $percentile
         )
     )
 );
 
 $out_json = json_encode($out);
 
-echo $out_json;
+if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
+    // called directly
+    echo $out_json;
+}
 
 $mysqli->close();
 ?>

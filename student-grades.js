@@ -8,16 +8,9 @@ const colourThresholds = {
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.onload = function() {
     const allData = JSON.parse(this.responseText);
-    // Grab data for student "Sophie"
-    const studentData = allData.studentData.filter(val => val.name == "Sophie")[0];
-    // Grab median data
-    const medianData = allData.assignments;
-    /**
-     * Create the report table with the median grades
-     */
-    const medianReport = medianData.map(assignment => [assignment.name, assignment.median]);
-    // Make and insert the table into the appropriate section
-    addToTable('mediansTable', medianReport);
+    // Grab data for current student
+    const studentData = allData.studentData;
+
     /**
      * Make table for report with standard deviation, rank, percentile
      * NOTE: uses the custom TableElement class to bundle data about what 
